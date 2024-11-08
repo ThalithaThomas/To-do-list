@@ -1,0 +1,102 @@
+{% extends "index.html" %} {% block title %}inbox{% endblock %} {% block
+content%}
+
+<div class="content">
+  <br />
+ 
+  <h1 id="inboxOnclick">Inbox</h1>
+</div>
+<div id="addTask-pstn" >
+  {% for item in task_list %}
+  <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
+
+                <ul>
+                  <li><a href="#" onclick="showEditTask('{{ item.id }}')" id="editEvent">Edit{{ item.id }}</i></a></li>
+                  <hr>
+                  <li><form action="/delete/{{ item.id }}" method="POST" style="display: inline;" >
+                    <input type="hidden" name="return_url" value="{{ request.path }}">
+                    <button type="submit" style="color: red;cursor: pointer; border: none;">
+                    <i class="fa-regular fa-trash-can"></i>Delete</button></form></li>
+                  <hr>
+                  <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
+                </ul>
+              </div>
+  <div class="TaskAdded">
+    <div class="big_circle" id="inbox">
+      {% if item.title is none %}
+      <p>Please enter task name.</p>
+      {% else %}
+        {% if item.date_str is none %}
+            <li><h4>{{ item.title |capitalize }} </h4></li>
+            <li>
+              <p>{{ item.description }} </p>
+              <a
+                href="#"
+                style="display: none"
+                class="ellipsis"
+                onclick="ShowMoreOptions('{{ item.id }}')"
+                ><i class="fa-thin fa-ellipsis-stroke"></i
+              ></a>
+            </li>
+            <hr class="hr_line" />
+        {% else %}
+            <li><h4>{{ item.title |capitalize }}</h4></li>
+            <li>
+            <p>{{ item.description }} {{ item.id }}</p>
+            <input type="text" id="currentDatePickr" style="display: none" />
+            {% if currentDate == item.date_str %}
+                  <span style="color: rgb(19, 122, 28)"
+                    ><i class="fa-thin fa-calendar"></i> Today</span
+                  >
+                  <a
+                    href="#"
+                    style="display: none"
+                    class="ellipsis"
+                    onclick="ShowMoreOptions('{{ item.id }}')"
+                    ><i class="fa-light fa-ellipsis-stroke"></i>
+                  </a>
+            {% elif currentDate > item.date_str %}
+                <span style="color: rgb(130, 10, 10)"
+                  ><i class="fa-thin fa-calendar"></i> {{ item.display_date }}</span
+                >
+                <a
+                  href="#"
+                  style="display: none"
+                  class="ellipsis"
+                  onclick="ShowMoreOptions('{{ item.id }}')">
+                  <i class="fa-light fa-ellipsis-stroke"></i >
+                </a>
+            {% else %}
+                  <span  style="color: rgb(61, 6, 73)"><i class="fa-thin fa-calendar"></i> {{ item.display_date }}</span>
+                  <a
+                    href="#"
+                    style="display: none"
+                    class="ellipsis"
+                    onclick="ShowMoreOptions('{{ item.id }}')"
+                    ><i class="fa-light fa-ellipsis-stroke"></i
+                    ></a>
+            {% endif %}
+        </li>
+        
+        <hr class="hr_line" />
+        {% endif %} {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+   <ul  class="removeAddBtn"  onclick="showAddbar()">
+        <li style="list-style: none">
+          <i
+            class="fa-regular fa-plus"
+            style="color: rgba(226, 23, 23, 0.7); font-size: large"
+          ></i>
+          <span class="removeAdd" id="text">Add task</span>
+        </li>
+      </ul>
+</div>{% if  not task_list %}
+ <div class="searchImg">
+<img src="/static/images/inbox1.jpg" alt="image not found">
+<h4>your peace of mind is priceless</h4>
+<p>looks like everything is organized in the right place. Tap + to add task.</p>
+  </div>
+ {% endif %}
+{% endblock %}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>LOGIN AUTH</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+
+  <!--{% extends "index.html" %} {% block tittle %}Sign In{% endblock %} {% block
+content %}-->
+  <body>
+    <div>
+      <ul class="landing-page">
+        <li class="text">To-do list</li>
+        <li>
+          <button><a href="signin.html">Start for free</a></button>
+        </li>
+      </ul>
+    </div>
+    <script>
+      function showSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.style.display = "block";
+      }
+      function hideSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.style.display = "none";
+      }
+    </script>
+    <div class="registration">
+      <div class="registration-box1">
+        <h1>Let's get started!</h1>
+        <form action="/login" method="GET">
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Email"
+            value="username"
+          />
+          <br />
+
+          <input
+            type="text"
+            name="password"
+            id="password"
+            placeholder="password"
+            value="password"
+          />
+          <br />
+
+          <button type="submit">sign up</button>
+
+          <p>or sign up with</p>
+
+          <a href="#"><i id="facebook" class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i id="google" class="fa-brands fa-google"></i></a>
+          <a href="#"><i id="apple" class="fa-brands fa-apple"></i></a>
+          <p>Already have any account? <a id="login" href="#">Log in</a></p>
+        </form>
+        <!--{% endblock %}-->
+      </div>
+    </div>
+    <script>
+      function showSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.style.display = "block";
+      }
+      function hideSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.style.display = "none";
+      }
+    </script>
+  </body>
+</html>

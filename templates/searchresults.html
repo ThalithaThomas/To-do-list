@@ -1,0 +1,50 @@
+{% extends "index.html" %} {% block title %}inbox{% endblock %} {% block
+content%}
+
+<div class="content">
+  <br />
+  <p style="display: none" id="currentDateHeader"></p>
+{% if title_search is none %}
+
+<h3 id="inboxOnclick">Results for "{{ title_search }}"</h3>
+  
+  
+      <div>
+        {% if results %}
+        <ul>
+          {% for result in results %}
+          <div class="TaskAdded">
+            <div class="big_circle">
+              <li><h4>{{ result.title }}</h4></li>
+              <li><p>{{ result.description }}</p></li>
+              <hr class="hr_line" />
+            </div>
+          </div>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <h4>No matches for {{ title_search }}</h4>
+        {% endif %}
+      </div>
+</div>
+
+  <div class="searchbar" id="fixedElement">
+    <form action="/search" method="get">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" name="search_input" placeholder="search a task..." />
+      <button type="submit">Enter</button>
+      <hr />
+      <div class="recentSearches">
+        
+        <ul>
+            <li>p>Recent searches <span class="clear">clear</span></p></li>
+          {% for search in recent_searches %}
+          <li><i class="fa-thin fa-clock-rotate-left"></i>{{ search }} <button type="reset"><i class="fa-sharp fa-light fa-xmark"></i></button></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </form>
+    <ul>
+
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css"
+    />
+</head>
+<body>
+    
+<span>Today</span>
+<div class="nav-sidebar1"  id="nav-sidebar1">
+ 
+ <ul>
+        
+        <li id="todayBtn">
+          <a href= "{{ url_for('today') }}">
+            <i class="fa-regular fa-rectangle-list"></i>
+            <span>Today</span>
+          </a>
+        </li>
+        <li  id="upcomingBtn">
+          <a href="{{ url_for('upcoming') }}">
+            <i class="fa-light fa-calendar-range"></i>
+            <span>Upcoming</span>
+          </a>
+        </li>
+        
+        <li  >
+          <a href="{{ url_for('search') }}"></a>
+          <i  class="fas fa-search search-icon"></i>
+          <span>search</span></a></li>
+        <li class="inboxManipulation">
+            <a href="{{ url_for('inbox') }}" id="inboxManipulation">
+                <i class="fas fa-inbox"></i>
+                <span >Inbox</span>
+            </a>
+        </li>
+        <br>
+    </ul>
+    </div>
+</div>
+</body>
+</html>

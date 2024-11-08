@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>{% block title %}Home{% endblock %}</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
+</head>
+<body>
+<div class="nav-sidebar" id="nav-sidebar">
+    <ul>
+        <li > 
+          <br><a href="#"><h2>To-do list <i class="fa-solid fa-sidebar-flip" onclick="hideNavbar()"></i></h2> </a></li>
+        <li class="left-side" onclick="showAddbar()">
+            <i class="fa-solid fa-circle-plus" style="color:rgb(134, 7, 7);" ></i>
+            <span  id="text">Add task</span></li>
+
+        <li class="search"><a href="#"></a><i  class="fas fa-search search-icon"></i><span>search</span></a></li>
+        <li class="inboxManipulation">
+            <a href="{{ url_for('inbox') }}" id="inboxManipulation">
+                <i class="fas fa-inbox"></i>
+                <span >Inbox</span>
+            </a>
+        </li>
+        <li id="todayBtn">
+          <a href= "{{ url_for('today') }}">
+            <i class="fa-regular fa-rectangle-list"></i>
+            <span>Today</span>
+          </a>
+        </li>
+        <li  id="upcomingBtn">
+          <a href="{{ url_for('upcoming') }}">
+            <i class="fa-light fa-calendar-range"></i>
+            <span>Upcoming</span>
+          </a>
+        </li>
+        
+        <br>
+        <li class="myProjects"><a href="{{ url_for('myprojects') }}">
+            <span>My projects</span>
+             <button><i class="fa-light fa-chevron-right"></i></button>
+            <button><i class="fa-solid fa-plus"></i></button>
+          
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="sidebar-flip">
+    <i class="fa-solid fa-sidebar-flip" onclick="showNavbar()"></i>
+    </div>
+    <div>
+    <ul class="sidebar">
+        <li onclick="hideSidebar()">
+        <a href="#">
+            <i class="fas fa-xmark"></i>
+        </a>
+        </li>
+        <li>
+        <h4>View</h4>
+        <select class="select-box">
+            <option value="list">List (default)</option>
+            <option value="grid">Grid</option>
+        </select>
+        </li>
+        <hr>
+        <li>
+        <h4>Sort by</h4>
+        <select id="sortSelect" onchange="sortTasks()" class="select-box"> sorting
+            <option value="name">None(default)</option>
+            <option value="date">Title</option>
+            <option value="due date">Due date</option>
+            <option value="Priority">Priority</option>
+        </select>
+        </li>
+        <hr>
+        <li>
+
+        <h4>Filter by</h4>
+        <select class="select-box">
+            <option value="assignee">Assignee (default)</option>
+            <option value="priority">Priority</option>
+            <option value="label">Label</option>
+        </select>
+        </li>
+    </ul>
+    <ul class="sidebar-container ">
+    <li onclick="showSidebar()">
+            <a href="#">
+                <i id="bar" class="fa-regular fa-sliders"></i>
+            </a>
+    </li>
+    </ul>
+</div>
+ <div class="project" >
+          <form action="">
+            <ul>
+              <li><h3>Add project <i class="fa-regular fa-circle-question"></i></h3></li>
+              <li> <input type="text" name="project" placeholder="#MyProjectName"></li>
+              <div>
+                  <button type="button" id="cancel-btn" onclick="hideAddbar()">Cancel</button>
+                  <button type="submit" id="add-btn"><span>Add Task</span></button>
+              </div>
+            </ul>
+          </form>
+</div>
+
+   </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script> 
+    <script> flatpickr("#datetimepicker", {
+
+  dateFormat: "M j",
+ 
+});
+
+</script>
+   <script>
+      // Get the current date
+      const currentDate = new Date();
+      // Get the month and day
+      const month = currentDate.toLocaleString("default", { month: "long" });
+      const day = currentDate.getDate();
+      // Display the current date (month and day) on the webpage
+      document.getElementById("currentDateHeader").innerHTML = month + " " + day;
+    </script>
+    
+    <script>
+
+      function showAddbar() {
+        const Addbar = document.querySelector(".addTask");
+        Addbar.style.display = "block";
+        
+      }
+      function hideAddbar() {
+        console.log("hiding addbar")
+        const Addbar = document.querySelector(".addTask");
+        Addbar.style.display = "none";
+      }
+    </script>
+   
+    
+    
+
+    <script src="/static/functional.js"></script>
+</body>
+</html>

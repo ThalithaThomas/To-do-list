@@ -1,0 +1,167 @@
+{% extends "index.html" %} {% block title %}Today{% endblock %} {% block content
+%}
+
+<div class="content">
+  <br />
+  <h1 >Today</h1>
+  {% for item in task_list %}
+    {% if item.date_str and currentDate is  none %}
+  
+      <p id="currentDateHeader"></p>
+  {% endif %}
+   {% endfor %}
+</div>
+
+<div id="addTask-pstn"  >
+  
+  {% set ns = namespace(found=false)  %}
+   {% for item in task_list %}
+    {% if item.date_str and currentDate is not none %}
+                        {% if currentDate > item.date_str %}
+                          {% set ns.found = true  %}
+                         
+           {% endif %} {% endif %}
+
+          {% endfor %}
+          {% if  ns.found  %}
+          <ul><li style="list-style: none;"><h3 id="overDue_tasks_title">Overdue Tasks</h3></li></ul>
+             
+             
+          <br>
+          {% endif %}<ul>
+          {% for item in task_list %}
+              <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
+                <ul>
+                  <li><a href="#" onclick="showEditTask('{{ item.id }}')" >Edit</i></a></li>
+                  <hr>
+                  <li><form action="/delete/{{ item.id }}" method="POST" style="display: inline;" >
+                      <input type="hidden" name="return_url" value="{{ request.path }}">
+                      <button type="submit" style="color: rgb(128, 20, 20);cursor: pointer; border: none;">
+                      <i class="fa-regular fa-trash-can"></i>Delete</button>
+                    </form>
+                  </li>
+                  <hr>
+                  <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
+                </ul>
+              </div>
+              <div class="TaskAdded">
+                      <div class="big_circle">
+                        {% if item.date_str and currentDate is not none %}
+                        {% if currentDate > item.date_str %}
+                                    <li><h4>{{ item.title |capitalize }}</h4></li>
+                              <li>
+                              <p>{{ item.description }} </p>
+                              <input type="text" id="currentDatePickr" style="display: none" />
+                                  <span style="color: rgb(130, 10, 10)"
+                                    ><i class="fa-thin fa-calendar"></i> {{ item.display_date }}</span
+                                  >
+                                  <a
+                                    href="#"
+                                    style="display: none"
+                                    class="ellipsis"
+                                    onclick="ShowMoreOptions('{{ item.id }}')">
+                                    <i class="fa-light fa-ellipsis-stroke"></i >
+                                  </a>
+                                  </li>
+                                  <hr class="hr_line" />
+                              {% endif %} {% endif %}
+                      </div>
+                  </div>
+          {% endfor %} 
+
+          <br>
+          {% for item in task_list %} 
+           {% if item.date_str and currentDate is not none %}
+           {% if currentDate == item.date_str %}
+          <ul class="currentDateHeader">
+           <li><h3 id="currentDateHeader">
+            </h3></li>
+          </ul>
+
+           {% endif %} {% endif %}
+          {% endfor %} 
+            {% for item in task_list %} 
+              <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
+                <ul>
+                  <li><a href="#" onclick="showEditTask('{{ item.id }}')" id="editEvent">Edit</i></a></li>
+                  <hr>
+                  <li><form action="/delete/{{ item.id }}" method="POST" style="display: inline;" >
+                    <input type="hidden" name="return_url" value="{{ request.path }}">
+                    <button type="submit" style="color: red;cursor: pointer; border: none;">
+                    <i class="fa-regular fa-trash-can"></i>Delete</button></form></li>
+                  <hr>
+                  <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
+                </ul>
+              </div>
+              <div class="TaskAdded">
+                  <div class="big_circle">
+                    {% if item.date_str and currentDate is not none %}
+                    {% if currentDate == item.date_str %}
+                      <li><h4>{{ item.title |capitalize }}</h4></li>
+                      <li>
+                      <p>{{ item.description }}</p>
+                      <input type="text" id="currentDatePickr" style="display: none" />
+                          <span style="color: white"
+                            ><i class="fa-thin fa-calendar"></i> {{ item.display_date }}</span
+                          >
+                          <a
+                            href="#"
+                            style="display: none"
+                            class="ellipsis"
+                            onclick="ShowMoreOptions('{{ item.id }}')">
+                            <i class="fa-light fa-ellipsis-stroke"></i >
+                          </a>
+                        </li>
+                        <hr class="hr_line" />
+                    {% endif %}
+                    {% endif %}
+                  </div>
+              </div>
+            {% endfor %}
+                  <ul  class="removeAddBtn"  onclick="showAddbar()">
+                  <li style="list-style: none">
+                    <i
+                      class="fa-regular fa-plus"
+                      style="color: rgba(226, 23, 23, 0.7); font-size: large"
+                    ></i>
+                    <span class="removeAdd" id="text">Add task</span>
+                  </li>
+</ul>
+                </div>
+                <div >
+                
+  </div>
+{% if not task_list %}
+
+
+  <div class="searchImg">
+<img src="/static/images/today.jpg" alt="image not found">
+<h4>Get a clear view of the day ahead</h4>
+<p>All your tasks that are due Today or overdue will show up here. <br>Tap + to add task.</p>
+  </div>
+              {% endif %}      
+ 
+  <div class="taskContainer">
+      <div class="addTaskWrapper">
+          <div class="addTask" style="display: none;">
+                <form action="addNewTask" method="post">
+                      <input type="hidden" name="return_url" value="{{ request.path }}">
+                      <input type="text" name="title" id="pstn" value="" placeholder="Task Name">
+                      <input type="text" name="description" placeholder="Description">
+                      <div>
+                        <input type="text" id="datetimepicker" name="due_date" placeholder="Due Date">
+                      <div class="edit-task">
+                      </div>
+                      <hr>
+                      <button type="button" id="cancel-btn" onclick="hideAddbar()">Cancel</button>
+                      <button type="submit" id="add-btn"><span>Add Task</span></button>
+                </form>
+          </div>
+      </div>
+    </div>
+  {% endblock %}
+
+
+
+
+
