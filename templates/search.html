@@ -1,87 +1,104 @@
-{% extends "index.html" %} {% block title %}inbox{% endblock %} {% block
-content%}
+{% extends "base.html" %} 
+{# This template extends index.html instead of base.html - note this difference from other templates #}
+
+{% block title %}inbox{% endblock %} 
+{# Set the page title for the browser tab #}
+
+{% block content%}
+{# Main content block that overrides the content block from the parent template #}
 
 <div class="content">
   <br />
+  {# Hidden element for date display - not visible on search page #}
   <p style="display: none" id="currentDateHeader"></p>
-{% if title_search is none %}
-<h3 id="inboxOnclick">Results</h3>
-{% else %}
-  <h3 id="inboxOnclick">Results for "{{ title_search }}"</h3>
+  
+  {# Conditional heading based on whether there's a search term #}
+  {% if title_search is none %}
+    <h3 id="inboxOnclick">Results</h3>
+  {% else %}
+    <h3 id="inboxOnclick">Results for "{{ title_search }}"</h3>
   </div>
-{% endif %}
- <div id="addTask-pstn">
-        {% if results %}
-          
-            {% for user in results %}
-            <div id="moreOptions_{{ user.id }}" class="moreOptions" style="display: none;">
-                      <ul>
-                        <li><a href="#" onclick="showEditTask('{{ user.id }}')" id="editEvent">EditS</i></a></li>
-                        <hr>
-                        <li><form action="/delete/{{ user.id }}" method="POST" style="display: inline;" >
-                            <input type="hidden" name="return_url" value="{{ request.path }}">
-                            <button type="submit" style="color: red;cursor: pointer; border: none;">
-                            <i class="fa-regular fa-trash-can"></i>Delete</button>
-                          </form>
-                        </li>
-                        <hr>
-                        <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
-                      </ul>
-            </div>
-            <div class="TaskAdded">
-              <div class="big_circle">
-                <li><h4>{{ user.title }}</h4></li>
-                <li>
-                        <p>{{ user.description }}</p>
-                        <input type="text" id="currentDatePickr" style="display: none" />
-                            <span style="color: rgb(96, 94, 94)"
-                              ><i class="fa-thin fa-calendar"></i> {{ user.display_date }}</span
-                            >
-                            <a
-                              href="#"
-                              style="display: none"
-                              class="ellipsis"
-                              onclick="ShowMoreOptions('{{ user.id }}')">
-                              <i class="fa-light fa-ellipsis-stroke"></i >
-                            </a>
-                          </li>                         
-                <hr class="hr_line" />
-              </div>
-            </div>
-            {% endfor %}
-            
-            
-        {% else %}
-        <div class="searchImg">
-        <img src="/static/images/search1.jpg" alt="image not found">
-        {% if title_search is not none %}
-        <h4>No matches for "{{title_search  }}"</h4>
-        {% endif %}
-   
+  {% endif %}
+  
+  {# Main container for search results #}
+  <div id="addTask-pstn">
+    {# Check if there are any search results #}
+    {% if results %}
+      {# Loop through each result in the search results #}
+      {% for user in results %}
+        {# More options popup menu for each task - hidden by default #}
+        <div id="moreOptions_{{ user.id }}" class="moreOptions" style="display: none;">
+          <ul>
+            <li><a href="#" onclick="showEditTask('{{ user.id }}')" id="editEvent">EditS</i></a></li>
+            <hr>
+            <li>
+              <form action="/delete/{{ user.id }}" method="POST" style="display: inline;" >
+                <input type="hidden" name="return_url" value="{{ request.path }}">
+                <button type="submit" style="color: red;cursor: pointer; border: none;">
+                  <i class="fa-regular fa-trash-can"></i>Delete
+                </button>
+              </form>
+            </li>
+            <hr>
+            <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
+          </ul>
         </div>
-         {% endif %}
-
-</div>
-
-{% for user in results %}
-    <div class="taskContainer">
-      <div class="addTaskWrapper">
-          <div class="editTask"  id="editTask_{{ user.id }}" style="display: none;">
-                <form action="{{ url_for('updateTask',task_id=user.id) }}" method="post">
-                      <input type="hidden" name="return_url" value="{{ request.path }}">
-                      <input type="text" name="title" value="{{user.title  }}" placeholder="Task Name">
-                      <input type="text" name="description" value="{{user.description  }}"  placeholder="Description {{ user.id }}">
-                      <div>
-
-                        <input type="text" id="datetimepickerupdate_{{ user.id }}"  value="{{  user.date_str}}" name="dueDate" placeholder="Due Date">
-                      <hr>
-                      <button type="button" id="cancel-btn" onclick="hideEditTask()">Cancel</button>
-                      <button type="submit" id="add-btn"><span>Save</span></button>
-                </form>
+        
+        {# Task display container for each search result #}
+        <div class="TaskAdded">
+          <div class="big_circle">
+            <li><h4>{{ user.title }}</h4></li>
+            <li>
+              <p>{{ user.description }}</p>
+              <input type="text" id="currentDatePickr" style="display: none" />
+              {# Date display in gray color for search results #}
+              <span style="color: rgb(96, 94, 94)">
+                <i class="fa-thin fa-calendar"></i> {{ user.display_date }}
+              </span>
+              <a
+                href="#"
+                style="display: none"
+                class="ellipsis"
+                onclick="ShowMoreOptions('{{ user.id }}')">
+                <i class="fa-light fa-ellipsis-stroke"></i >
+              </a>
+            </li>                         
+            <hr class="hr_line" />
           </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      {# No results found - display empty state #}
+      <div class="searchImg">
+        <img src="/static/images/search1.jpg" alt="image not found">
+        {# Only show "No matches" text if there was a search term #}
+        {% if title_search is not none %}
+          <h4>No matches for "{{title_search}}"</h4>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+{# Edit task modals for search results - hidden by default #}
+{# These forms appear at the bottom of the page and are shown when user clicks Edit #}
+{% for user in results %}
+  <div class="taskContainer">
+    <div class="addTaskWrapper">
+      <div class="editTask" id="editTask_{{ user.id }}" style="display: none;">
+        <form action="{{ url_for('updateTask',task_id=user.id) }}" method="post">
+          <input type="hidden" name="return_url" value="{{ request.path }}">
+          <input type="text" name="title" value="{{user.title}}" placeholder="Task Name">
+          <input type="text" name="description" value="{{user.description}}" placeholder="Description {{ user.id }}">
+          <div>
+            <input type="text" id="datetimepickerupdate_{{ user.id }}" value="{{user.date_str}}" name="dueDate" placeholder="Due Date">
+            <hr>
+            <button type="button" id="cancel-btn" onclick="hideEditTask()">Cancel</button>
+            <button type="submit" id="add-btn"><span>Save</span></button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
 {% endfor %}
 
-  {% endblock %}
-
+{% endblock %}

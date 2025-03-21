@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags for proper rendering and viewport control -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Dynamic title tag that can be overridden by child templates -->
+    <title>{% block title %}Home{% endblock %}</title>
+    
+    <!-- Main stylesheet for the application -->
+    <link rel="stylesheet" href="/static/style.css" />
+
+    <!-- Google Fonts for typography -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    
+    <!-- Flatpickr for date picking functionality -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    
+    <!-- Additional Font Awesome icons from pro collection -->
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css"
+    />
+  </head>
+  <body>
+
+<!-- Left sidebar navigation - desktop view -->
+<div class="nav-sidebar" id="nav-sidebar">
+  <!-- Close button for sidebar -->
+  <div class="closeSidebar" >
+    <i class="fa-solid fa-circle-xmark" style="font-size: 2em;"></i>
+  </div>
+  
+  <!-- Main navigation menu -->
+  <ul>
+    <br>
+    <!-- App title -->
+    <li><h2>To-do list </i></h2> </li>
+    
+    <!-- Add task button -->
+    <li>
+      <ul onclick="showAddbar()">
+        <li style="list-style: none">
+          <button class="plus">+</button>
+          <span>Add task</span>
+        </li>
+      </ul>
+    </li>
+    
+    <!-- Search button -->
+    <li onclick="showSearchbar()"><a href="#">
+      <i class="fas fa-search search-icon"></i>
+      <span>search</span>
+    </a>
+    </li>
+    
+    <!-- Inbox navigation link -->
+    <li class="inboxManipulation">
+      <a href="{{ url_for('inbox') }}" id="inboxManipulation">
+        <i class="fas fa-inbox"></i>
+        <span>Inbox</span>
+      </a>
+    </li>
+    
+    <!-- Today navigation link -->
+    <li id="todayBtn">
+      <a href="{{ url_for('today') }}">
+        <i class="fa-regular fa-rectangle-list"></i>
+        <span>Today</span>
+      </a>
+    </li>
+    
+    <!-- Upcoming navigation link -->
+    <li id="upcomingBtn">
+      <a href="{{ url_for('upcoming') }}">
+        <i class="fa-light fa-calendar-range"></i>
+        <span>Upcoming</span>
+      </a>
+    </li>
+    <br>
+  </ul>
+</div>
+
+<!-- Content block - where child templates insert their specific content -->
+{% block content %}{% endblock %}
+
+<!-- Bottom navigation bar - mobile view -->
+<div class="nav-sidebar1" id="nav-sidebar1">
+  <ul>
+    <!-- Today navigation link -->
+    <li id="todayBtn">
+      <a href="{{ url_for('today') }}">
+        <i class="fa-regular fa-rectangle-list"></i>
+        <span>Today</span>
+      </a>
+    </li>
+    
+    <!-- Upcoming navigation link -->
+    <li id="upcomingBtn">
+      <a href="{{ url_for('upcoming') }}">
+        <i class="fa-light fa-calendar-range"></i>
+        <span>Upcoming</span>
+      </a>
+    </li>
+    
+    <!-- Search button -->
+    <li onclick="showSearchbar()"><a href="#">
+      <i class="fas fa-search search-icon"></i>
+      <span>search</span>
+    </a>
+    </li>
+    
+    <!-- Inbox navigation link -->
+    <li class="inboxManipulation">
+      <a href="{{ url_for('inbox') }}" id="inboxManipulation">
+        <i class="fas fa-inbox"></i>
+        <span>Inbox</span>
+      </a>
+    </li>
+    <br>
+  </ul>
+</div>
+
+<!-- Flash messages container - for displaying notifications -->
+<div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <ul class="flashed-messages">
+    {% for category, message in messages %}
+    <li {{ category }}>
+      {% if category == 'success' %}
+      <!-- Success message with green checkmark -->
+      <i class="fa-solid fa-circle-check" style="color: green;"></i>{{ message }} <i class="fa-thin fa-xmark" onclick="hideMessage(this)"></i>
+      {% elif category=='error' %}
+      <!-- Error message with red X -->
+      <i class="fa-regular fa-circle-xmark" style="color: red;"></i>{{ message }}<i class="fa-thin fa-xmark" onclick="hideMessage(this)"></i>
+      {% elif category=='warning' %} 
+      <!-- Warning message with exclamation -->
+      <i class="fa-regular fa-circle-exclamation"></i>{{ message }}<i class="fa-thin fa-xmark" onclick="hideMessage(this)"></i>
+      {% elif category=='info' %} 
+      <!-- Info message with info icon -->
+      <i class="fa-light fa-circle-info"></i>{{ message }}<i class="fa-thin fa-xmark" onclick="hideMessage(this)"></i>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+</div>
+
+<!-- Search bar - hidden by default, shown when search is clicked -->
+<div class="searchbar" id="fixedElement" style="display:none;">
+  <form action="/search" method="get">
+    <input type="text" name="search_input" id="searchinput" placeholder="search..." />
+    <a href="{{ url_for('search') }}"><i class="fas fa-search search-icon"></i></a>
+    <hr />
+  </form>
+  
+  <!-- Recent searches section -->
+  <div class="recentSearches">
+    <div class="recentSearchesHeading">
+      <p>Recent searches <span class="clear">clear</span></p>
+    </div>
+    <ul>
+      <!-- Loop through recent searches from Flask g object -->
+      {% for search in g.recent_searches %}
+      <li onclick="setSearchTerm('{{ search.search_term }}')">
+        <i class="fa-thin fa-clock-rotate-left"></i>
+        <span>{{ search.search_term}}</span>
+        <form action="{{ url_for('delete_search',search_id=search.id) }}" method="post">
+          <input type="hidden" name="return_url" value="{{ request.path }}">
+          <button type="submit" style="border: none; background: none;cursor: pointer;">
+            <i class="fa-solid fa-xmark delete-search"></i>
+          </button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<!-- Add task container - hidden by default, shown when "Add task" is clicked -->
+<div class="taskContainer">
+  <div class="addTaskWrapper">
+    <div class="addTask" style="display: none;">
+      <form action="addNewTask" method="post">
+        <input type="hidden" name="return_url" value="{{ request.path }}">
+        <input type="text" name="title" id="pstn" placeholder="Task Name">
+        <input type="text" name="description" placeholder="Description">
+        <div>
+          <input type="text" id="datetimepicker" name="due_date" placeholder="Due Date">
+          <div class="edit-task"></div>
+          <hr>
+          <button type="button" id="cancel-btn" onclick="hideAddbar()">Cancel</button>
+          <button type="submit" id="add-btn"><span>Add Task</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit task modals block - used by child templates to inject edit forms -->
+{% block edit_task_modals %}{% endblock %}
+
+<!-- Floating add task button - primarily for mobile view -->
+<div class="addtaskBar" id="addtaskBar">
+  <ul onclick="showAddbar()">
+    <button class="plus1">+</button>
+  </ul>
+</div>
+
+<!-- JavaScript libraries and initialization -->
+<!-- Flatpickr date picker library -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script>
+
+<!-- Initialize date picker with desired format -->
+<script>
+  flatpickr("#datetimepicker", {
+    dateFormat: "M j", // Format: Month day (e.g., "Mar 21")
+  });
+</script>
+
+<!-- Main JavaScript functionality -->
+<script src="/static/functional.js"></script>
+
+<!-- Additional JavaScript block for child templates -->
+{% block extra_js %}{% endblock %}
+  </body>
+</html>

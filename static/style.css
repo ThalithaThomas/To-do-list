@@ -1,9 +1,15 @@
+/* ============================
+   GLOBAL STYLES 
+   ============================ */
 body {
   font-family: open sans;
   margin: 0%;
   font-family: "Open Sans", sans-serif; /* Applies Open Sans font */
 }
 
+/* ============================
+   NAVIGATION - DESKTOP SIDEBAR
+   ============================ */
 .nav-sidebar {
   padding: 0%;
   margin: 0%;
@@ -60,6 +66,55 @@ body {
   border: none;
 }
 
+/* ============================
+   NAVIGATION - MOBILE BOTTOM BAR
+   ============================ */
+.nav-sidebar1 {
+  display: none;
+  position: fixed;
+  color: rgb(61, 60, 60);
+  bottom: 0;
+  left: 0%;
+  height: 90px;
+  width: 100%;
+  background-color: beige;
+  margin: 0%;
+}
+.nav-sidebar1 ul li i {
+  color: rgb(85, 84, 84);
+
+  font-size: medium;
+}
+.nav-sidebar1 a {
+  text-decoration: none;
+  color: rgb(56, 56, 56);
+}
+.nav-sidebar1 span {
+  font-size: x-small;
+}
+
+.nav-sidebar1 ul li:active a,
+.nav-sidebar1 ul li:active a i,
+.nav-sidebar1 ul li:active a span {
+  color: red;
+}
+.nav-sidebar1 ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+.nav-sidebar1 ul li {
+  margin-right: 42px;
+}
+
+.closeSidebar {
+  display: none;
+}
+
+/* ============================
+   MAIN CONTENT CONTAINER
+   ============================ */
 .content {
   position: absolute;
   top: 3%;
@@ -79,56 +134,9 @@ body {
   height: fit-content;
 }
 
-.moreOptions {
-  display: block;
-  position: fixed;
-  top: 15%;
-  left: 85%;
-  background-color: white;
-  border-radius: 8px;
-  padding: 15px;
-  z-index: 1000;
-  box-shadow: 0 0 8px 4px rgb(225, 219, 219);
-}
-.moreOptions ul {
-  list-style: none;
-  padding: 0%;
-  margin: 0%;
-}
-.moreOptions li {
-  margin-bottom: 10px 0;
-}
-.moreOptions li a {
-  text-decoration: none;
-  color: #4a4a4b;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-.moreOptions li a:hover {
-  color: #0056b3;
-}
-.moreOptions form {
-  display: inline;
-}
-.moreOptions button i {
-  margin-right: 7px;
-}
-.moreOptions a i {
-  margin-right: 7px;
-}
-.moreOptions button {
-  background-color: transparent;
-  color: red;
-  cursor: pointer;
-  border-radius: 0%;
-  border: none;
-  padding: 0;
-  font-size: inherit;
-}
-.moreOptions hr {
-  width: 140px;
-}
-
+/* ============================
+   TASK DISPLAY STYLES
+   ============================ */
 .TaskAdded {
   position: relative;
   list-style: none;
@@ -252,6 +260,62 @@ body {
   white-space: nowrap;
 }
 
+/* ============================
+   MORE OPTIONS MENU
+   ============================ */
+.moreOptions {
+  display: block;
+  position: fixed;
+  top: 15%;
+  left: 85%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  z-index: 1000;
+  box-shadow: 0 0 8px 4px rgb(225, 219, 219);
+}
+.moreOptions ul {
+  list-style: none;
+  padding: 0%;
+  margin: 0%;
+}
+.moreOptions li {
+  margin-bottom: 10px 0;
+}
+.moreOptions li a {
+  text-decoration: none;
+  color: #4a4a4b;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+.moreOptions li a:hover {
+  color: #0056b3;
+}
+.moreOptions form {
+  display: inline;
+}
+.moreOptions button i {
+  margin-right: 7px;
+}
+.moreOptions a i {
+  margin-right: 7px;
+}
+.moreOptions button {
+  background-color: transparent;
+  color: red;
+  cursor: pointer;
+  border-radius: 0%;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+.moreOptions hr {
+  width: 140px;
+}
+
+/* ============================
+   ADD TASK FORM
+   ============================ */
 .taskContainer {
   position: absolute;
   top: 19%;
@@ -275,36 +339,6 @@ body {
   background-color: white;
 }
 
-.editTask {
-  top: 89%;
-  left: 60%;
-  width: 600px;
-  height: 120px;
-  border: 1px solid #9f9d9d;
-  border-radius: 8px;
-  background-color: white;
-  padding: 15px 2px 5px 8px;
-}
-.editTask button {
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  width: 80px;
-  line-height: 25px;
-}
-.editTask ::placeholder {
-  font-weight: normal;
-}
-.editTask input {
-  font-weight: normal;
-  margin-bottom: 8px;
-
-  border: none;
-  display: block;
-}
-#fixedElement {
-  position: fixed;
-}
 .addTask {
   width: 500px;
   height: 150px;
@@ -334,53 +368,43 @@ body {
   background-color: rgba(243, 14, 14, 0.4);
   color: white;
 }
-.navSmallScreen {
-  display: none;
+
+/* ============================
+   EDIT TASK FORM
+   ============================ */
+.editTask {
+  top: 89%;
+  left: 60%;
+  width: 600px;
+  height: 120px;
+  border: 1px solid #9f9d9d;
+  border-radius: 8px;
+  background-color: white;
+  padding: 15px 2px 5px 8px;
 }
-.addtaskBar {
-  position: fixed;
-  top: 5%;
-  left: 1%;
+.editTask button {
+  font-weight: bold;
   border: none;
-  margin: 0%;
+  border-radius: 4px;
+  width: 80px;
+  line-height: 25px;
 }
-.plus1 {
-  font-size: x-large;
-  color: white;
-  background-color: rgb(156, 16, 16);
-  border-radius: 50%;
+.editTask ::placeholder {
+  font-weight: normal;
+}
+.editTask input {
+  font-weight: normal;
+  margin-bottom: 8px;
+
   border: none;
-}
-.editImage {
-  font-size: large;
-  font-weight: 600;
-}
-.editImage img {
-  border-radius: 50%;
-  width: 270px;
-}
-.editImage li {
-  list-style: none;
-}
-.addtaskBar.active {
   display: block;
 }
-.searchImg {
-  color: #353434;
-  position: absolute;
-  top: 35%;
-  right: 20%;
-  text-align: center;
-}
-.searchImg img {
-  width: 400px;
-  height: 300px;
-}
 
-.searchImg p {
-  font-size: small;
-  color: #656464;
-  text-align: center;
+/* ============================
+   SEARCH FUNCTIONALITY
+   ============================ */
+#fixedElement {
+  position: fixed;
 }
 .searchbar {
   position: absolute;
@@ -464,49 +488,63 @@ body {
 
   color: rgb(61, 61, 61);
 }
-.closeSidebar {
-  display: none;
+
+/* ============================
+   EMPTY STATE IMAGES
+   ============================ */
+.searchImg {
+  color: #353434;
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  text-align: center;
+}
+.searchImg img {
+  width: 400px;
+  height: 300px;
 }
 
-.nav-sidebar1 {
-  display: none;
+.searchImg p {
+  font-size: small;
+  color: #656464;
+  text-align: center;
+}
+
+/* ============================
+   FLOATING ACTION BUTTONS
+   ============================ */
+.addtaskBar {
   position: fixed;
-  color: rgb(61, 60, 60);
-  bottom: 0;
-  left: 0%;
-  height: 90px;
-  width: 100%;
-  background-color: beige;
+  top: 5%;
+  left: 1%;
+  border: none;
   margin: 0%;
 }
-.nav-sidebar1 ul li i {
-  color: rgb(85, 84, 84);
-
-  font-size: medium;
+.plus1 {
+  font-size: x-large;
+  color: white;
+  background-color: rgb(156, 16, 16);
+  border-radius: 50%;
+  border: none;
 }
-.nav-sidebar1 a {
-  text-decoration: none;
-  color: rgb(56, 56, 56);
+.editImage {
+  font-size: large;
+  font-weight: 600;
 }
-.nav-sidebar1 span {
-  font-size: x-small;
+.editImage img {
+  border-radius: 50%;
+  width: 270px;
 }
-
-.nav-sidebar1 ul li:active a,
-.nav-sidebar1 ul li:active a i,
-.nav-sidebar1 ul li:active a span {
-  color: red;
-}
-.nav-sidebar1 ul {
+.editImage li {
   list-style: none;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: flex-end;
 }
-.nav-sidebar1 ul li {
-  margin-right: 42px;
+.addtaskBar.active {
+  display: block;
 }
 
+/* ============================
+   FLASH MESSAGES
+   ============================ */
 .flashed-messages {
   font-size: small;
   width: fit-content;
@@ -544,6 +582,9 @@ body {
   align-self: flex-end;
 }
 
+/* ============================
+   RESPONSIVE MOBILE STYLES
+   ============================ */
 @media screen and (max-width: 568px) {
   .flashed-messages {
     width: 76%;
@@ -747,6 +788,10 @@ body {
     padding: 15px 2px 5px 8px;
   }
 }
+
+/* ============================
+   RESPONSIVE TABLET STYLES
+   ============================ */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .nav-sidebar {
     height: 100vh;

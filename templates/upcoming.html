@@ -1,40 +1,58 @@
-{% extends "index.html" %} {% block title %} Today {% endblock %} {% block
-content%}
+{% extends "base.html" %}
+{# This template extends index.html rather than base.html #}
+
+{% block title %} Today {% endblock %}
+{# Set the page title for the browser tab #}
+
+{% block content%}
+{# Main content block that overrides the content block from the parent template #}
 
 <div class="content">
- 
   <br />
   <h3 id="inboxOnclick">Upcoming Tasks</h3>
 </div>
 
+{# Main container for upcoming tasks #}
 <div id="addTask-pstn">
-        {% set ns = namespace(found=false)  %}
+        {# Check if there are any upcoming tasks and set a flag #}
+        {% set ns = namespace(found=false) %}
                 {% for item in task_list %} 
+                  {# Only consider tasks with a date that is in the future #}
                   {%  if item.date_str is not none %} {% if currentDate < item.date_str %}
-                    {% set ns.found = true  %}
+                    {% set ns.found = true %}
                   {% endif %} {% endif %}
         {% endfor %} 
-        {% if  ns.found == false %}
-          <P>No Upcoming Task  found!</P>
+        
+        {# Display message if no upcoming tasks were found #}
+        {% if ns.found == false %}
+          <P>No Upcoming Task found!</P>
         {% endif %}
+        
+        {# Loop through all tasks and display only those with future dates #}
         {% for item in task_list %}
+        {# More options popup menu for each task - hidden by default #}
         <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
                     <ul>
                       <li><a href="#" onclick="showEditTask()" id="editEvent">Edit</i></a></li>
                       <hr>
-                      <li><form action="/delete/{{ item.id }}" method="POST" style="display: inline;" >
+                      <li>
+                        <form action="/delete/{{ item.id }}" method="POST" style="display: inline;">
                           <input type="hidden" name="return_url" value="{{ request.path }}">
                           <button type="submit" style="color: red;cursor: pointer; border: none;">
-                          <i class="fa-regular fa-trash-can"></i>Delete</button>
+                            <i class="fa-regular fa-trash-can"></i>Delete
+                          </button>
                         </form>
                       </li>
                       <hr>
                       <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
                     </ul>
         </div>
+        
+        {# Task display container - only shows tasks with future dates #}
         <div class="TaskAdded">
               <div class="big_circle">
                     {% if item.date_str is not none %} {% if currentDate < item.date_str %}
+                    {# Display task details for future tasks #}
                     <li><h4>{{ item.title | capitalize }}</h4></li>
                     <li>
                       <p>{{ item.description | capitalize }}</p>
@@ -46,6 +64,7 @@ content%}
                       >
                         <i class="fa-thin fa-ellipsis-stroke"></i>
                       </a>
+                      {# Display the task date #}
                       <span>
                         <i class="fa-thin fa-calendar"></i>&nbsp; {{ item.display_date }}
                       </span>
