@@ -1,22 +1,31 @@
+
+
 import os
-from flask import Flask,render_template,request,redirect,url_for,jsonify,session,flash,g
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, flash, g
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import IntegrityError,SQLAlchemyError
-from datetime import datetime,date
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from datetime import datetime, date
 from flask_migrate import Migrate
 from dateutil import parser
 import sqlite3
-from urllib.parse import quote
 
 
-app= Flask(__name__)
-app.secret_key=os.environ.get('FLASK_SECRET_KEY','default_secret_key')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app = Flask(__name__)
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
+
+# Database URL configuration
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///todo.db')
+
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['ENV']= 'development'
-app.config['DEBUG']= True
+app.config['ENV'] = os.environ.get('FLASK_ENV', 'production')
+app.config['DEBUG'] = os.environ.get('FLASK_DEBUG', 'False') == 'True'
+
 db = SQLAlchemy(app)
-Migrate=Migrate(app,db)
+migrate = Migrate(app, db)
 
 
 class User(db.Model):

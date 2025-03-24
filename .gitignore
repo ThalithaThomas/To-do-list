@@ -1,0 +1,31 @@
+# Virtual environments
+venv/
+env/
+.env/
+.venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# SQLite databases
+*.sqlite
+*.db
+
+# Logs
+*.log
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Heroku specific
+.env

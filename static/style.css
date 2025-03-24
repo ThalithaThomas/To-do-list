@@ -79,6 +79,7 @@ body {
   width: 100%;
   background-color: beige;
   margin: 0%;
+  z-index: 1;
 }
 .nav-sidebar1 ul li i {
   color: rgb(85, 84, 84);
@@ -320,6 +321,7 @@ body {
   position: absolute;
   top: 19%;
   left: 28%;
+  z-index: 2;
 }
 
 .addTaskWrapper {
@@ -344,7 +346,7 @@ body {
   height: 150px;
   border-radius: 8px;
   background-color: white;
-  box-shadow: 1px 2px 17px 14px rgb(227, 226, 226);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 15px 2px 5px 8px;
 }
 .addTask button {
@@ -583,9 +585,47 @@ body {
 }
 
 /* ============================
+   RESPONSIVE TABLET STYLES
+   ============================ */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .nav-sidebar {
+    height: 100vh;
+    width: 250px;
+    background-color: rgb(63, 62, 62);
+  }
+
+  .content {
+    top: 4%;
+    left: 45%;
+    margin: 0%;
+    padding: 0%;
+  }
+
+  .searchbar {
+    top: 30%;
+    left: 40%;
+    width: 550px;
+    height: 400px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .content {
+    top: 4%;
+    left: 55%;
+  }
+}
+/* ============================
    RESPONSIVE MOBILE STYLES
    ============================ */
+
 @media screen and (max-width: 568px) {
+  .content {
+    position: absolute;
+    top: 12%;
+    left: 45%;
+    color: rgb(22, 22, 22);
+    font-size: small;
+  }
   .flashed-messages {
     width: 76%;
     border: 1px solid rgb(213, 212, 212);
@@ -617,13 +657,6 @@ body {
     display: flex;
     justify-content: flex-end;
     margin: 20px 20px 0 0;
-  }
-  .content {
-    position: absolute;
-    top: 12%;
-    right: 40%;
-    color: rgb(22, 22, 22);
-    font-size: small;
   }
 
   .toggleButton {
@@ -714,7 +747,7 @@ body {
     margin-bottom: 5px;
   }
   .searchImg {
-    top: 40%;
+    top: 30%;
     right: 10%;
   }
 
@@ -724,7 +757,8 @@ body {
   }
   .searchImg button,
   p {
-    display: none;
+    padding: 0 1rem;
+    white-space: nowrap;
   }
 
   .searchImg h4 {
