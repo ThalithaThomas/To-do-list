@@ -181,7 +181,26 @@ def delete_search(search_id):
         return redirect(url_for('home'))
     else:
         return redirect(request.form.get('return_url', '/'))
-
+    
+@app.route('/clear_all_searches', methods=['POST'])
+def clear_all_searches():
+    # Delete all searches from the RecentSearch model
+    try:
+        RecentSearch.query.delete()
+        db.session.commit()
+        
+        # If you're also storing searches in session, clear that too
+        if 'recent_searches' in session:
+            session['recent_searches'] = []
+            session.modified = True
+            
+        # Return to the page they came from
+        return_url = request.form.get('return_url', '/')
+        return redirect(return_url)
+    except Exception as e:
+        # Handle any errors
+        print(f"Error clearing searches: {e}")
+        return redirect(request.form.get('return_url', '/'))
 @app.route("/delete/<int:task_id>", methods=['POST'])
 def delete_task(task_id):
     return_url = request.form.get('return_url', url_for('home'))

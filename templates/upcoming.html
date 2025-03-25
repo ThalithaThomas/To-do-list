@@ -49,8 +49,8 @@
         </div>
         
         {# Task display container - only shows tasks with future dates #}
-        <div class="TaskAdded">
-              <div class="big_circle">
+        <div class="upcoming-container">
+              <div class="upcoming">
                     {% if item.date_str is not none %} {% if currentDate < item.date_str %}
                     {# Display task details for future tasks #}
                     <li><h4>{{ item.title | capitalize }}</h4></li>

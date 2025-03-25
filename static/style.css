@@ -1,115 +1,99 @@
 /* ============================
    GLOBAL STYLES 
    ============================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-family: open sans;
-  margin: 0%;
-  font-family: "Open Sans", sans-serif; /* Applies Open Sans font */
+  font-family: "Open Sans", sans-serif;
+  color: #333;
+  background-color: white;
+  overflow-x: hidden;
+}
+li {
+  list-style: none;
 }
 
 /* ============================
    NAVIGATION - DESKTOP SIDEBAR
    ============================ */
 .nav-sidebar {
-  padding: 0%;
-  margin: 0%;
   position: fixed;
-  top: 0%;
-  left: 0%;
+  top: 0;
+  left: 0;
   height: 100vh;
-  line-height: 50px;
-  width: 310px;
-  list-style: none;
-  background-color: rgba(45, 44, 44, 1);
-  z-index: 1;
-  color: white;
+  width: 280px;
+  background-color: #2d2c2c;
+  color: #fff;
+  padding: 20px 0;
+  overflow-y: auto;
+  z-index: 100;
+  transition: transform 0.3s ease;
 }
 
 .nav-sidebar ul {
+  list-style: none;
   padding: 0;
-  margin-block-start: 0%;
 }
 
 .nav-sidebar li {
-  padding: 9px;
+  padding: 10px 25px;
+  margin-bottom: 5px;
 }
 
 .nav-sidebar a {
+  color: #f1ebeb;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .nav-sidebar i,
 .nav-sidebar span {
-  margin-left: 7px;
-  color: rgb(241, 235, 235);
-  font-weight: normal;
-  font-size: medium;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.nav-sidebar i {
+  width: 20px;
+  text-align: center;
+}
+
+.nav-sidebar h2 {
+  padding: 0 25px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.nav-sidebar ul li:hover {
+  background-color: #3d3d3d;
+  border-radius: 5px;
+}
+
+.nav-sidebar ul li:hover i,
+.nav-sidebar ul li:hover span {
+  color: #9c1010;
+}
+
+.plus {
+  background-color: transparent;
+  color: #9c1010;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
   cursor: pointer;
 }
-.nav-sidebar ul li:hover i,
-.nav-sidebar ul li:hover h2,
-.nav-sidebar ul li:hover span {
-  color: rgb(156, 16, 16);
-}
-.nav-sidebar ul li:hover button {
-  background-color: rgb(109, 15, 15);
-  color: whitesmoke;
-}
-.nav-sidebar ul li:hover {
-  background-color: beige;
-  border-radius: 30px;
-}
-.plus {
-  font-size: x-large;
-  color: rgb(156, 16, 16);
-  border-radius: 50%;
-  border: none;
-}
 
-/* ============================
-   NAVIGATION - MOBILE BOTTOM BAR
-   ============================ */
+/* Hide the mobile bottom nav on desktop */
 .nav-sidebar1 {
   display: none;
-  position: fixed;
-  color: rgb(61, 60, 60);
-  bottom: 0;
-  left: 0%;
-  height: 90px;
-  width: 100%;
-  background-color: beige;
-  margin: 0%;
-  z-index: 1;
-}
-.nav-sidebar1 ul li i {
-  color: rgb(85, 84, 84);
-
-  font-size: medium;
-}
-.nav-sidebar1 a {
-  text-decoration: none;
-  color: rgb(56, 56, 56);
-}
-.nav-sidebar1 span {
-  font-size: x-small;
 }
 
-.nav-sidebar1 ul li:active a,
-.nav-sidebar1 ul li:active a i,
-.nav-sidebar1 ul li:active a span {
-  color: red;
-}
-.nav-sidebar1 ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: flex-end;
-}
-.nav-sidebar1 ul li {
-  margin-right: 42px;
-}
-
-.closeSidebar {
+/* Hide the floating add button on desktop */
+.addtaskBar {
   display: none;
 }
 
@@ -117,203 +101,369 @@ body {
    MAIN CONTENT CONTAINER
    ============================ */
 .content {
-  position: absolute;
-  top: 3%;
-  right: 48%;
-  color: rgba(45, 44, 44, 1);
-}
-.content h2 {
-  margin: 0;
+  position: relative;
+  margin-left: 17.5rem;
+  padding: 1.2rem;
 }
 
 #addTask-pstn {
-  position: absolute;
-  top: 27%;
-  left: 39%;
-  font-size: smaller;
-  width: 700px;
-  height: fit-content;
+  margin-left: 17.5rem;
+  padding: 2rem 1.2rem;
+  width: calc(100% - 17.5rem);
 }
 
 /* ============================
-   TASK DISPLAY STYLES
+   FLASH MESSAGES
    ============================ */
-.TaskAdded {
-  position: relative;
+.flashed-messages {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
   list-style: none;
-  margin: 18px 0px 18px 0px;
+  width: auto;
+  max-width: 400px;
 }
-.TaskAdded input {
-  display: none;
-}
-.TaskAdded hr {
-  margin-top: 12px;
-}
-.TaskAdded p {
+
+.flashed-messages li {
+  background-color: #292929;
+  color: #fff;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding-left: 39px;
-  background-color: white;
-  color: #706f6f;
-  white-space: nowrap;
-  max-width: fit-content;
-  margin-block-start: 0.4em;
-  margin-block-end: 0.4em;
-  font-weight: none;
-  font-size: small;
-  line-height: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
 
-.TaskAdded li p a {
-  text-decoration: none;
-  color: #696565;
-}
-.TaskAdded li p i {
-  margin-right: 6px;
-}
-.TaskAdded li h4 {
-  padding-left: 39px;
-  font-weight: normal;
-  color: rgb(15, 15, 15, 0.95);
-  margin-block-start: 0.5em;
-  margin-block-end: 0.5em;
-}
-.TaskAdded li p {
-  color: #6c6a6a;
-  font-weight: normal;
-}
-.TaskAdded li span {
-  font-weight: lighter;
-  width: 150px;
-  height: 2vh;
-  border-radius: 8px;
-  color: #6c6a6a;
-  margin-left: 40px;
+.flashed-messages i:first-child {
+  margin-right: 10px;
 }
 
-.TaskAdded a {
-  display: block;
-  margin-right: 1px;
-  align-items: center;
-  width: 30px;
-  height: 12px;
-  text-decoration: none;
-  border-radius: 8px;
-  float: right;
-  margin-bottom: 5px;
-}
-
-.big_circle {
-  list-style-type: none;
-  padding-right: 4%;
-}
-
-.big_circle i {
-  position: relative;
-}
-.big_circle li:first-child:before {
-  content: "";
-  display: block;
-  width: 15px;
-  height: 15px;
-  border: 0.5px solid #7a7979;
-  border-radius: 50%;
-  position: absolute;
-  top: 10%;
-  left: 3%;
-  transform: translate(-50%, -50%);
-}
-
-#ellipsis {
-  color: #848282;
-  display: inline;
+.flashed-messages i:last-child {
   margin-left: auto;
-}
-.ellipsis {
-  color: #4f4c4c;
-}
-.ellipsis i:hover {
-  color: #3b3939;
-}
-.ellipsis i {
-  font-size: xx-large;
   cursor: pointer;
-}
-.hr_line {
-  border: none;
-  height: 0.2px;
-  background-color: #eae8e8;
-  width: 104%;
-  margin: 0 -20px;
-}
-
-.currentDateHeader {
-  font-weight: bold;
-}
-.currentDateHeader li {
-  list-style: none;
-}
-#text {
-  margin-left: 1px;
-  font-size: large;
-  color: #353434;
-  white-space: nowrap;
 }
 
 /* ============================
-   MORE OPTIONS MENU
+   MOBILE STYLES
    ============================ */
-.moreOptions {
-  display: block;
-  position: fixed;
-  top: 15%;
-  left: 85%;
+@media screen and (max-width: 768px) {
+  /* Hide desktop sidebar */
+  .nav-sidebar {
+    display: none;
+  }
+
+  /* Remove left margin from content */
+  .content,
+  #addTask-pstn {
+    margin-left: 0;
+    width: 100%;
+    padding-bottom: 80px; /* Make room for bottom nav */
+  }
+
+  /* Show and style bottom navigation */
+  .nav-sidebar1 {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: #2d2c2c;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-sidebar1 ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-sidebar1 li {
+    width: 25%;
+    text-align: center;
+  }
+
+  .nav-sidebar1 a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    height: 100%;
+    padding: 5px 0;
+  }
+
+  .nav-sidebar1 i {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .nav-sidebar1 span {
+    font-size: 12px;
+  }
+
+  .nav-sidebar1 a:active i,
+  .nav-sidebar1 a:active span {
+    color: #9c1010;
+  }
+
+  /* Show floating add button on mobile */
+  .addtaskBar {
+    display: block;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 110;
+  }
+
+  .plus1 {
+    width: 56px;
+    height: 56px;
+    background-color: #9c1010;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 28px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  /* Adjust flash messages for mobile */
+  .flashed-messages {
+    bottom: 80px;
+    left: 10px;
+    right: 10px;
+    max-width: calc(100% - 20px);
+  }
+
+  /* Task container adjustments for mobile */
+  .addTask {
+    width: 90%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+}
+
+/* ============================
+   SMALL MOBILE STYLES
+   ============================ */
+@media screen and (max-width: 360px) {
+  .nav-sidebar1 i {
+    font-size: 20px;
+  }
+
+  .nav-sidebar1 span {
+    font-size: 10px;
+  }
+
+  .plus1 {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+}
+
+/* ============================
+   TASK FORMS & COMPONENTS
+   ============================ */
+.addTask,
+.editTask {
   background-color: white;
   border-radius: 8px;
   padding: 15px;
-  z-index: 1000;
-  box-shadow: 0 0 8px 4px rgb(225, 219, 219);
-}
-.moreOptions ul {
-  list-style: none;
-  padding: 0%;
-  margin: 0%;
-}
-.moreOptions li {
-  margin-bottom: 10px 0;
-}
-.moreOptions li a {
-  text-decoration: none;
-  color: #4a4a4b;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-.moreOptions li a:hover {
-  color: #0056b3;
-}
-.moreOptions form {
-  display: inline;
-}
-.moreOptions button i {
-  margin-right: 7px;
-}
-.moreOptions a i {
-  margin-right: 7px;
-}
-.moreOptions button {
-  background-color: transparent;
-  color: red;
-  cursor: pointer;
-  border-radius: 0%;
-  border: none;
-  padding: 0;
-  font-size: inherit;
-}
-.moreOptions hr {
-  width: 140px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.addTask input,
+.editTask input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#add-btn {
+  color: white;
+  border: none;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  padding: 0.5rem 2rem;
+  cursor: pointer;
+  float: right;
+}
+
+#cancel-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0.5rem 2rem;
+}
+
+/* ============================
+   SEARCH FUNCTIONALITY
+   ============================ */
+.searchbar {
+  position: fixed;
+  top: 45px;
+  width: 400px;
+  max-width: 100%;
+  left: 310px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 101;
+}
+
+.searchbar input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.recentSearches {
+  margin-top: 15px;
+}
+
+.recentSearches li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.recentSearches li:hover {
+  background-color: #f5f5f5;
+}
+
+.recentSearchesHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.recentSearchesHeading p {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.clear {
+  color: #9c1010;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: normal;
+  margin-left: auto;
+  padding-left: 15px;
+}
+
+.recentSearches li form {
+  margin-left: auto;
+}
+
+.delete-search {
+  color: #999;
+  font-size: 12px;
+  transition: color 0.2s;
+  margin-left: 10px;
+  padding: 5px;
+}
+
+/* ============================
+   RESPONSIVE STYLES
+   ============================ */
+
+/* Tablet devices */
+@media screen and (max-width: 1024px) {
+  .searchbar {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 500px;
+  }
+}
+
+/* Large mobile devices */
+@media screen and (max-width: 768px) {
+  .searchbar {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    padding: 15px;
+  }
+
+  .searchbar input {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .recentSearches {
+    margin-top: 10px;
+  }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 480px) {
+  .searchbar {
+    top: 10px;
+    width: 95%;
+    max-width: 320px;
+    padding: 12px;
+  }
+
+  .searchbar input {
+    padding: 7px;
+    font-size: 13px;
+  }
+
+  .recentSearchesHeading p {
+    font-size: 13px;
+  }
+
+  .clear {
+    font-size: 12px;
+  }
+
+  .recentSearches li {
+    padding: 6px 0;
+  }
+
+  .delete-search {
+    font-size: 11px;
+    padding: 3px;
+  }
+}
+
+/* Extra small mobile devices */
+@media screen and (max-width: 320px) {
+  .searchbar {
+    padding: 10px;
+    max-width: 280px;
+  }
+}
 /* ============================
    ADD TASK FORM
    ============================ */
@@ -324,526 +474,611 @@ body {
   z-index: 2;
 }
 
-.addTaskWrapper {
-  list-style: none;
+/* ============================
+   ADD TASK FORM
+   ============================ */
+.taskContainer {
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 15px;
+  box-sizing: border-box;
 }
+
+.addTaskWrapper {
+  width: 100%;
+}
+
 .addTaskWrapper li {
   display: flex;
   list-style: none;
 }
+
 .addTaskWrapper i {
   font-size: larger;
   border-radius: 50%;
   white-space: nowrap;
+  cursor: pointer;
+  padding: 8px;
+  transition: background-color 0.2s;
 }
+
 .addTaskWrapper i:hover {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .addTask {
-  width: 500px;
-  height: 150px;
+  width: 100%;
+  min-height: 200px;
+  height: auto;
   border-radius: 8px;
   background-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 15px 2px 5px 8px;
+  padding: 15px;
+  box-sizing: border-box;
 }
+
+.addTask form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.addTask input {
+  margin-bottom: 12px;
+  width: 100%;
+  height: auto;
+  min-height: 30px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.addTask ::placeholder {
+  font-weight: normal;
+  opacity: 0.7;
+}
+
+.addTask hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid #eee;
+  width: 100%;
+}
+
 .addTask button {
   font-weight: bold;
   border: none;
   border-radius: 4px;
-  width: 80px;
-  line-height: 25px;
+  width: auto;
+  min-width: 80px;
+  padding: 8px 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
-.addTask ::placeholder {
-  font-weight: normal;
+
+#cancel-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 0.7rem;
 }
-.addTask input {
-  margin-bottom: 8px;
-  width: 400px;
-  height: 17px;
-  border: none;
-  display: block;
+
+#cancel-btn:hover {
+  background-color: #e0e0e0;
 }
+
 #add-btn {
-  background-color: rgba(243, 14, 14, 0.4);
+  background-color: #4285f4;
   color: white;
 }
 
-/* ============================
-   EDIT TASK FORM
-   ============================ */
-.editTask {
-  top: 89%;
-  left: 60%;
-  width: 600px;
-  height: 120px;
-  border: 1px solid #9f9d9d;
-  border-radius: 8px;
-  background-color: white;
-  padding: 15px 2px 5px 8px;
+#add-btn:hover {
+  background-color: #3367d6;
 }
-.editTask button {
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  width: 80px;
-  line-height: 25px;
-}
-.editTask ::placeholder {
-  font-weight: normal;
-}
-.editTask input {
-  font-weight: normal;
-  margin-bottom: 8px;
 
-  border: none;
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 600px) {
+  .taskContainer {
+    padding: 0 10px;
+  }
+
+  .addTask {
+    padding: 12px;
+  }
+
+  .addTask button {
+    padding: 8px 12px;
+    min-width: 70px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .taskContainer {
+    max-width: 100%;
+  }
+
+  .addTask {
+    min-height: 180px;
+    padding: 10px;
+  }
+
+  .addTask input {
+    margin-bottom: 8px;
+    padding: 6px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .addTask button {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+}
+
+/* Task Item Styling */
+.TaskAdded {
+  margin-bottom: 0.1rem;
+
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.TaskAdded:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+.big_circle {
+  padding: 0.3rem;
+}
+
+.big_circle li {
+  padding: 0.1rem 0;
+}
+
+.big_circle span {
   display: block;
+  margin-bottom: 0.1rem;
 }
-
-/* ============================
-   SEARCH FUNCTIONALITY
-   ============================ */
-#fixedElement {
-  position: fixed;
+input[type="text"][id="currentDatePickr"],
+.hidden-date-input {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  pointer-events: none !important;
 }
-.searchbar {
+/* Ellipsis menu icon */
+.ellipsis {
   position: absolute;
-  top: 42%;
-  left: 30%;
-  width: 790px;
-  height: 240px;
-  padding: 20px;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.ellipsis:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #555;
+}
+
+.ellipsis i {
+  font-size: 1.1rem;
+}
+
+/* Show ellipsis when task item is hovered */
+.big_circle li:hover .ellipsis {
+  display: block !important;
+}
+
+.hr_line {
+  border: none;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.08);
+  margin: 10px 0 5px;
+}
+
+/* Error message for empty task title */
+.big_circle > p {
+  color: #e74c3c;
+  font-style: italic;
+  font-size: 0.9rem;
+  padding: 5px 0;
+}
+
+/* Hidden input field */
+#currentDatePickr {
+  display: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .big_circle {
+    padding: 14px;
+  }
+
+  .big_circle h4 {
+    font-size: 1rem;
+  }
+
+  .big_circle p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .TaskAdded {
+    border-radius: 8px;
+  }
+
+  .big_circle {
+    padding: 12px;
+  }
+
+  .big_circle h4 {
+    font-size: 0.95rem;
+  }
+
+  .big_circle p {
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+
+  .big_circle span {
+    font-size: 0.8rem;
+  }
+
+  /* Make ellipsis always visible on mobile for easier access */
+  .ellipsis {
+    display: block !important;
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 360px) {
+  .big_circle {
+    padding: 10px;
+  }
+
+  .big_circle li {
+    padding: 4px 0;
+  }
+
+  .big_circle span {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+#addTask-pstn {
+  position: relative;
+}
+
+/* More Options Popup Menu */
+.moreOptions {
+  position: absolute;
+  right: 20px;
+  top: auto;
+  width: 180px;
+  background-color: white;
   border-radius: 8px;
-  background-color: white;
-  border: 0.4px solid rgb(217, 216, 216);
-  color: #3b3a3a;
-  z-index: 9;
-}
-.searchbar hr {
-  border: 0.4px solid;
-
-  color: rgba(197, 194, 194, 0.5);
-}
-.searchbar ul {
-  list-style-type: none;
-  padding: 0%;
-}
-.searchbar li {
-  font-size: small;
-  margin: 0%;
-}
-.searchbar button {
-  line-height: 40px;
-  border: none;
-  background-color: white;
-}
-.searchbar input {
-  width: 700px;
-  line-height: 40px;
-  border: none;
-
-  outline: none;
-}
-.searchbar ::placeholder {
-  font-size: x-large;
-  color: rgba(97, 96, 96, 0.5);
-}
-.searchbar i {
-  font-size: x-large;
-  color: rgba(97, 96, 96, 0.5);
-  margin-right: 3px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  animation: fadeIn 0.2s ease-in-out;
 }
 
-.recentSearches {
-  display: inline-block;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.moreOptions ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.moreOptions li {
+  padding: 0;
+}
+
+.moreOptions a,
+.moreOptions button {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.15s;
   width: 100%;
   text-align: left;
+  font-size: 14px;
+  box-sizing: border-box;
 }
-.recentSearches li i {
-  margin-right: 7px;
+
+.moreOptions a:hover,
+.moreOptions button:hover {
+  background-color: #f5f5f5;
 }
-.recentSearches span {
-  float: right;
-  margin-right: auto;
+
+.moreOptions i {
+  margin-right: 10px;
+  font-size: 16px;
 }
-.recentSearches li {
-  list-style: none;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px;
+
+.moreOptions hr {
+  margin: 0;
+  border: none;
+  height: 1px;
+  background-color: #eee;
 }
-.recentSearches li:hover {
-  background-color: rgb(244, 244, 243);
-}
-.recentSearches li i:last-child {
-  margin-left: auto;
+
+.moreOptions button {
+  background: none;
   cursor: pointer;
-  color: #5d5b5b;
+  font-family: inherit;
 }
 
-.recentSearches i {
-  font-size: large;
-
-  color: rgb(61, 61, 61);
+.moreOptions button[style*="color: red"] i {
+  color: red;
 }
 
-/* ============================
-   EMPTY STATE IMAGES
-   ============================ */
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .moreOptions {
+    width: 170px;
+    right: 15px;
+  }
+
+  .moreOptions a,
+  .moreOptions button {
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .moreOptions {
+    width: 160px;
+    right: 10px;
+  }
+
+  .moreOptions a,
+  .moreOptions button {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .moreOptions i {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .moreOptions {
+    width: 150px;
+    right: 5px;
+  }
+
+  .moreOptions a,
+  .moreOptions button {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+}
+/* Empty State Styling */
 .searchImg {
-  color: #353434;
-  position: absolute;
-  top: 35%;
-  right: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  padding: 40px 20px;
+  margin: 30px auto;
+  max-width: 500px;
 }
+
 .searchImg img {
-  width: 400px;
-  height: 300px;
+  max-width: 220px;
+  height: auto;
+  margin-bottom: 25px;
+  border-radius: 10px;
+}
+
+.searchImg img:hover {
+  transform: scale(1.03);
+}
+
+.searchImg h4 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  text-transform: capitalize;
 }
 
 .searchImg p {
-  font-size: small;
-  color: #656464;
-  text-align: center;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  max-width: 350px;
 }
 
-/* ============================
-   FLOATING ACTION BUTTONS
-   ============================ */
-.addtaskBar {
-  position: fixed;
-  top: 5%;
-  left: 1%;
-  border: none;
-  margin: 0%;
-}
-.plus1 {
-  font-size: x-large;
-  color: white;
-  background-color: rgb(156, 16, 16);
-  border-radius: 50%;
-  border: none;
-}
-.editImage {
-  font-size: large;
-  font-weight: 600;
-}
-.editImage img {
-  border-radius: 50%;
-  width: 270px;
-}
-.editImage li {
-  list-style: none;
-}
-.addtaskBar.active {
-  display: block;
-}
-
-/* ============================
-   FLASH MESSAGES
-   ============================ */
-.flashed-messages {
-  font-size: small;
-  width: fit-content;
-  padding: 0%;
-  margin: 10px 0;
-  border: 1px solid rgb(213, 212, 212);
-  border-radius: 8px;
-  background-color: #292929;
-  color: whitesmoke;
-  position: fixed;
-  bottom: 3%;
-  left: 24%;
-  z-index: 1000;
-}
-.flashed-messages ul {
-  list-style: none;
-}
-.flashed-messages li {
-  display: flex;
-  padding: 10px;
-  white-space: nowrap;
-}
-.flashed-messages li i {
-  margin-right: 8px;
-  vertical-align: middle;
-  color: #f0eded;
-  background-color: #292929;
-}
-.flashed-messages i {
-  margin-left: 8px;
-  vertical-align: middle;
-  line-height: 1;
-}
-.flashed-messages li:last-child {
-  align-self: flex-end;
-}
-
-/* ============================
-   RESPONSIVE TABLET STYLES
-   ============================ */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  .nav-sidebar {
-    height: 100vh;
-    width: 250px;
-    background-color: rgb(63, 62, 62);
-  }
-
-  .content {
-    top: 4%;
-    left: 45%;
-    margin: 0%;
-    padding: 0%;
-  }
-
-  .searchbar {
-    top: 30%;
-    left: 40%;
-    width: 550px;
-    height: 400px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .content {
-    top: 4%;
-    left: 55%;
-  }
-}
-/* ============================
-   RESPONSIVE MOBILE STYLES
-   ============================ */
-
-@media screen and (max-width: 568px) {
-  .content {
-    position: absolute;
-    top: 12%;
-    left: 45%;
-    color: rgb(22, 22, 22);
-    font-size: small;
-  }
-  .flashed-messages {
-    width: 76%;
-    border: 1px solid rgb(213, 212, 212);
-    border-radius: 12px;
-    background-color: #e7b0b0;
-    color: rgb(82, 81, 81);
-    font-size: smaller;
-    left: 7%;
-  }
-  .flashed-messages li {
-    white-space: normal;
-  }
-  .flashed-messages li i {
-    background-color: #e7b0b0;
-    color: rgb(82, 81, 81);
-  }
-  .nav-sidebar {
-    display: none;
-    height: auto;
-    width: 250px;
-    background-color: rgb(66, 64, 64);
-    border-radius: 0 10px 10px 0;
-  }
-  .nav-sidebar1 {
-    display: block;
-  }
-  .closeSidebar {
-    position: fixed;
-    display: flex;
-    justify-content: flex-end;
-    margin: 20px 20px 0 0;
-  }
-
-  .toggleButton {
-    border: none;
-    background-color: white;
-    margin: 5%;
-    font-size: xx-large;
-  }
-  .toggleButtonstyle {
-    margin: 0%;
-
-    border-radius: 0 0 50px 50px;
-  }
-  .toggleButtonstyle i {
-    color: rgb(180, 10, 10);
-  }
-  #addTask-pstn {
-    position: absolute;
-    top: 37%;
-    left: 3%;
-    font-size: smaller;
-    width: 260px;
-    height: fit-content;
-    margin: 1%;
-  }
-  #ellipsis {
-    margin-left: 0%;
-    float: left;
-  }
-  .ellipsis i {
-    font-size: x-large;
-    cursor: pointer;
-  }
-  .hr_line {
-    height: 0.2px;
-    background-color: #eae8e8;
-    width: 120%;
-    margin: 0 -20px;
-  }
-  .big_circle li:first-child:before {
-    width: 10px;
-    height: 10px;
-  }
-  .big_circle {
-    width: 280px;
-  }
-
-  .moreOptions {
-    top: 55%;
-    left: 35%;
-  }
-  .addTask {
-    position: fixed;
-    top: 37%;
-    left: 20%;
-    width: 230px;
-    height: 130px;
-    padding: 3%;
-    z-index: 2;
-  }
-
-  .addTask ::placeholder {
-    font-weight: normal;
-  }
-  .addTask input {
-    margin-bottom: 8px;
-    width: 120px;
-    height: 17px;
-    border: none;
-    display: block;
-  }
-  .TaskAdded {
-    position: relative;
-    list-style: none;
-    margin: 18px 0px 18px 0px;
-  }
-
-  .TaskAdded a {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 1px;
-    align-items: flex-end;
-    width: 30px;
-    height: 12px;
-    text-decoration: none;
-    border-radius: 8px;
-
-    margin-bottom: 5px;
-  }
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .searchImg {
-    top: 30%;
-    right: 10%;
+    padding: 30px 15px 70px 0px;
   }
 
   .searchImg img {
-    width: 200px;
-    height: 200px;
-  }
-  .searchImg button,
-  p {
-    padding: 0 1rem;
-    white-space: nowrap;
+    max-width: 180px;
+    margin-bottom: 20px;
   }
 
   .searchImg h4 {
-    font-size: small;
-  }
-  .removeAddBtn {
-    display: none;
+    font-size: 1.2rem;
   }
 
-  .searchbar {
-    position: absolute;
-    top: 32%;
-    left: 5%;
-    width: 260px;
-    height: 240px;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: white;
-
-    border: 0.4px solid rgb(217, 216, 216);
-    color: #3b3a3a;
-
-    z-index: 9;
-  }
-  .searchbar hr {
-    border: 0.4px solid;
-
-    color: rgba(197, 194, 194, 0.5);
-  }
-
-  .searchbar button {
-    line-height: 40px;
-    border: none;
-    background-color: white;
-  }
-  .searchbar input {
-    width: 230px;
-  }
-  .searchbar ::placeholder {
-    font-size: small;
-    color: rgba(97, 96, 96, 0.5);
-  }
-  .searchbar i {
-    font-size: small;
-    color: rgba(97, 96, 96, 0.5);
-    margin-right: 3px;
-  }
-  .taskContainer {
-    position: absolute;
-    top: 19%;
-    left: 8%;
-  }
-  .editTask {
-    top: 89%;
-    left: 60%;
-    width: 330px;
-    height: 120px;
-    border: 1px solid #9f9d9d;
-    border-radius: 8px;
-    background-color: white;
-    padding: 15px 2px 5px 8px;
+  .searchImg p {
+    font-size: 0.95rem;
   }
 }
 
-/* ============================
-   RESPONSIVE TABLET STYLES
-   ============================ */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  .nav-sidebar {
-    height: 100vh;
-    width: 250px;
-    background-color: rgb(63, 62, 62);
+@media (max-width: 480px) {
+  .searchImg {
+    padding: 25px 15px 70px 0px;
+    margin: 20px auto;
   }
 
-  .content {
-    top: 4%;
-    left: 45%;
-    margin: 0%;
-    padding: 0%;
+  .searchImg img {
+    max-width: 150px;
+    margin-bottom: 15px;
   }
 
-  .searchbar {
-    top: 30%;
-    left: 40%;
-    width: 550px;
-    height: 400px;
+  .searchImg h4 {
+    font-size: 1.1rem;
+  }
+
+  .searchImg p {
+    font-size: 0.9rem;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 360px) {
+  .searchImg {
+    padding: 20px 10px 80px 0px;
+  }
+
+  .searchImg img {
+    max-width: 130px;
+  }
+
+  .searchImg h4 {
+    font-size: 1rem;
+  }
+
+  .searchImg p {
+    font-size: 0.85rem;
+  }
+}
+/* Error Pages Styling */
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+  font-family: "Open Sans", sans-serif;
+}
+
+.error-content {
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+}
+
+.error-content h1 {
+  color: #333;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.error-content p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.error-content .fa-circle-exclamation {
+  color: #e74c3c;
+  margin-right: 10px;
+}
+
+.error-content .fa-circle-xmark {
+  color: #e74c3c;
+  margin-right: 10px;
+}
+
+.back-button {
+  display: inline-block;
+  background-color: #3498db;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.back-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.back-button .fa-arrow-left {
+  margin-right: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .error-content {
+    padding: 30px;
+  }
+
+  .error-content h1 {
+    font-size: 24px;
+  }
+
+  .error-content p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-content {
+    padding: 25px;
+    width: 85%;
+  }
+
+  .error-content h1 {
+    font-size: 22px;
+  }
+
+  .back-button {
+    padding: 10px 20px;
+    font-size: 14px;
   }
 }

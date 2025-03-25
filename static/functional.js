@@ -58,14 +58,6 @@ function hideEditTask() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  const defaultDate = new Date("{{currentDate}}");
-  flatpickr("#currentDatePickr", {
-    dateFormat: "M j",
-    defaultDate: defaultDate,
-  });
-});
-
 function showSearchbar() {
   const searchBar = document.querySelector(".searchbar");
   searchBar.style.display = "block";
@@ -112,3 +104,27 @@ function hideMessage(element) {
 function setSearchTerm(term) {
   document.getElementById("searchinput").value = term;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Handle sidebar toggle
+  const sidebar = document.getElementById("nav-sidebar");
+  const closeBtn = document.querySelector(".closeSidebar");
+
+  // Toggle sidebar when clicking on close button
+  if (closeBtn) {
+    closeBtn.addEventListener("click", function () {
+      sidebar.classList.toggle("active");
+    });
+  }
+
+  // Make bottom nav buttons open sidebar
+  const menuIcons = document.querySelectorAll(".nav-sidebar1 i.fas");
+  menuIcons.forEach((icon) => {
+    icon.addEventListener("click", function (e) {
+      if (window.innerWidth <= 568) {
+        e.preventDefault();
+        sidebar.classList.add("active");
+      }
+    });
+  });
+});

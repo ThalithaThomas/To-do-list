@@ -61,9 +61,10 @@
             <li><h4>{{ item.title |capitalize }}</h4></li>
             <li>
             <p>{{ item.description }} {{ item.id }}</p>
-            <input type="text" id="currentDatePickr" style="display: none" />
+            
             
             {% if currentDate == item.date_str %}
+            
             {# Task due today - green date display #}
                   <span style="color: rgb(19, 122, 28)"
                     ><i class="fa-thin fa-calendar"></i> Today</span

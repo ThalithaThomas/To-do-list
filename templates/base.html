@@ -39,11 +39,7 @@
 
 <!-- Left sidebar navigation - desktop view -->
 <div class="nav-sidebar" id="nav-sidebar">
-  <!-- Close button for sidebar -->
-  <div class="closeSidebar" >
-    <i class="fa-solid fa-circle-xmark" style="font-size: 2em;"></i>
-  </div>
-  
+
   <!-- Main navigation menu -->
   <ul>
     <br>
@@ -163,22 +159,31 @@
 
 <!-- Search bar - hidden by default, shown when search is clicked -->
 <div class="searchbar" id="fixedElement" style="display:none;">
-  <form action="/search" method="get">
+<form action="/search" method="get" style="position: relative;">
+  <div style="display: flex; align-items: center; position: relative;">
     <input type="text" name="search_input" id="searchinput" placeholder="search..." />
-    <a href="{{ url_for('search') }}"><i class="fas fa-search search-icon"></i></a>
-    <hr />
-  </form>
+    <button type="submit" style="border: none; background: none; cursor: pointer; position: absolute; right: 15px; top: 50%; transform: translateY(-50%); z-index: 2;">
+      <i class="fas fa-search search-icon"></i>
+    </button>
+  </div>
+  <hr style="margin-top: 10px; margin-bottom: 15px;" />
+</form>
   
   <!-- Recent searches section -->
   <div class="recentSearches">
-    <div class="recentSearchesHeading">
-      <p>Recent searches <span class="clear">clear</span></p>
-    </div>
+   
+   <div class="recentSearchesHeading">
+  <p>Recent searches</p>
+  <form action="{{ url_for('clear_all_searches') }}" method="post" id="clearAllForm">
+    <input type="hidden" name="return_url" value="{{ request.path }}">
+    <button type="submit" class="clear" style="border: none; background: none; cursor: pointer; color: #4a90e2; font-size: 13px; font-weight: normal;">clear</button>
+  </form>
+</div>
     <ul>
       <!-- Loop through recent searches from Flask g object -->
       {% for search in g.recent_searches %}
       <li onclick="setSearchTerm('{{ search.search_term }}')">
-        <i class="fa-thin fa-clock-rotate-left"></i>
+       
         <span>{{ search.search_term}}</span>
         <form action="{{ url_for('delete_search',search_id=search.id) }}" method="post">
           <input type="hidden" name="return_url" value="{{ request.path }}">
@@ -200,13 +205,16 @@
         <input type="hidden" name="return_url" value="{{ request.path }}">
         <input type="text" name="title" id="pstn" placeholder="Task Name">
         <input type="text" name="description" placeholder="Description">
-        <div>
-          <input type="text" id="datetimepicker" name="due_date" placeholder="Due Date">
-          <div class="edit-task"></div>
-          <hr>
-          <button type="button" id="cancel-btn" onclick="hideAddbar()">Cancel</button>
-          <button type="submit" id="add-btn"><span>Add Task</span></button>
-        </div>
+        <!-- In your form, replace the last div with this -->
+<div>
+  <input type="text" id="datetimepicker" name="due_date" placeholder="Due Date">
+  <div class="edit-task"></div>
+  <hr>
+  <div class="form-buttons">
+    <button type="button" id="cancel-btn" onclick="hideAddbar()">Cancel</button>
+    <button type="submit" id="add-btn"><span>Add Task</span></button>
+  </div>
+</div>
       </form>
     </div>
   </div>
@@ -222,8 +230,7 @@
   </ul>
 </div>
 
-<!-- JavaScript libraries and initialization -->
-<!-- Flatpickr date picker library -->
+
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script>
 
 <!-- Initialize date picker with desired format -->
@@ -231,6 +238,7 @@
   flatpickr("#datetimepicker", {
     dateFormat: "M j", // Format: Month day (e.g., "Mar 21")
   });
+  
 </script>
 
 <!-- Main JavaScript functionality -->
