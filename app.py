@@ -220,7 +220,6 @@ def delete_task(task_id):
         return redirect(url_for('home'))
     else:
         return redirect(request.form.get('return_url', '/'))
-
 @app.route("/update/<int:task_id>", methods=['POST', 'GET'])
 def updateTask(task_id):
     return_url = request.form.get('return_url', url_for('home'))
@@ -232,21 +231,42 @@ def updateTask(task_id):
     if request.method == 'POST':
         task.title = request.form['title']
         task.description = request.form['description']
-        date_str = request.form['dueDate']
+        date_str = request.form.get('dueDate', '')
+        
         if date_str:
             try:
+                # First try the format your backend expects
                 task.date_str = datetime.strptime(date_str, '%Y-%m-%d').date()
                 db.session.commit()
                 flash('Task updated successfully!', 'success')
-            except Exception as e:
-                db.session.rollback()
-                flash(f"Invalid date format: {e}", 'error')
+            except ValueError:
+                try:
+                    # If that fails, try the flatpickr format (Month day, e.g., "Mar 21")
+                    date_obj = datetime.strptime(date_str, '%b %d')
+                    # Add current year since the format doesn't include it
+                    current_year = datetime.now().year
+                    date_obj = date_obj.replace(year=current_year)
+                    
+                    # Update the task with the correct date format
+                    task.date_str = date_obj.date()
+                    
+                    # Store the display format if needed
+                    task.display_date = date_str
+                    
+                    db.session.commit()
+                    flash('Task updated successfully!', 'success')
+                except Exception as e:
+                    db.session.rollback()
+                    flash(f"Invalid date format: {e}", 'error')
+        else:
+            # If no date provided, just update the other fields
+            db.session.commit()
+            flash('Task updated successfully!', 'success')
 
     if return_url == url_for('search'):
         return redirect(url_for('home'))
     else:
         return redirect(request.form.get('return_url', '/'))
-
 # Error handlers
 @app.errorhandler(404)
 def not_found_error(error):
@@ -259,4 +279,4 @@ def internal_error(error):
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=True)

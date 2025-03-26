@@ -44,20 +44,6 @@ ellipsisElements.forEach(function (ellipsis) {
   });
 });
 
-function showEditTask(taskId) {
-  var editForm = document.getElementById("editTask_" + taskId);
-
-  if (editForm) {
-    editForm.style.display = "block";
-  }
-}
-function hideEditTask() {
-  const editTask = document.querySelector(".editTask");
-  if (editTask) {
-    editTask.style.display = "none";
-  }
-}
-
 function showSearchbar() {
   const searchBar = document.querySelector(".searchbar");
   searchBar.style.display = "block";
@@ -124,6 +110,90 @@ document.addEventListener("DOMContentLoaded", function () {
       if (window.innerWidth <= 568) {
         e.preventDefault();
         sidebar.classList.add("active");
+      }
+    });
+  });
+});
+function showEditTask(taskId) {
+  // First hide more options menu
+  HideMoreOptions();
+
+  // Show the existing add task form
+  const addTask = document.querySelector(".addTask");
+  if (addTask) {
+    addTask.style.display = "block";
+
+    // Get the form element
+    const form = addTask.querySelector("form");
+    if (form) {
+      // Change form action to update
+      form.action = `/update/${taskId}`;
+
+      // Find the task element by ID to get its data
+      const moreOptions = document.getElementById("moreOptions_" + taskId);
+      if (moreOptions) {
+        // Get the task container
+        const taskContainer = moreOptions.nextElementSibling;
+        if (taskContainer) {
+          // Extract title
+          const titleElement = taskContainer.querySelector("h4");
+          if (titleElement) {
+            form.querySelector('input[name="title"]').value =
+              titleElement.textContent.trim();
+          }
+
+          // Extract description
+          const descElement = taskContainer.querySelector("p");
+          if (descElement) {
+            form.querySelector('input[name="description"]').value =
+              descElement.textContent.trim();
+          }
+
+          // Extract date if available
+          const dateElement = taskContainer.querySelector("span");
+          if (dateElement) {
+            const dateText = dateElement.textContent.trim();
+            // Remove the calendar icon text if present
+            const cleanDateText = dateText.replace("Today", "").trim();
+
+            // Set the value in the date input
+            const dateInput = form.querySelector('input[id="datetimepicker"]');
+            if (dateInput) {
+              dateInput.value = cleanDateText;
+              // Change the name attribute to match what the server expects
+              dateInput.name = "dueDate";
+            }
+          }
+        }
+      }
+
+      // Change button text
+      const button = form.querySelector("#add-btn span");
+      if (button) {
+        button.textContent = "Update Task";
+      }
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Get all navigation items in the mobile nav
+  const mobileNavItems = document.querySelectorAll(".nav-sidebar1 li");
+
+  // Add click handlers to each item
+  mobileNavItems.forEach(function (item) {
+    // Skip the item that already has an onclick attribute (search)
+    if (item.hasAttribute("onclick")) {
+      return; // Skip this item to preserve its original onclick behavior
+    }
+
+    item.addEventListener("click", function (e) {
+      // Get the link inside this nav item
+      const link = item.querySelector("a");
+
+      // Navigate to the link's href
+      if (link) {
+        window.location.href = link.getAttribute("href");
       }
     });
   });

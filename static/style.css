@@ -654,16 +654,6 @@ li {
   display: block;
   margin-bottom: 0.1rem;
 }
-input[type="text"][id="currentDatePickr"],
-.hidden-date-input {
-  display: none !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  position: absolute !important;
-  left: -9999px !important;
-  pointer-events: none !important;
-}
 /* Ellipsis menu icon */
 .ellipsis {
   position: absolute;

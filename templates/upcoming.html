@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{# This template extends index.html rather than base.html #}
+{# This template extends base.html #}
 
-{% block title %} Today {% endblock %}
+{% block title %} Upcoming {% endblock %}
 {# Set the page title for the browser tab #}
 
 {% block content%}
@@ -14,67 +14,85 @@
 
 {# Main container for upcoming tasks #}
 <div id="addTask-pstn">
-        {# Check if there are any upcoming tasks and set a flag #}
-        {% set ns = namespace(found=false) %}
-                {% for item in task_list %} 
-                  {# Only consider tasks with a date that is in the future #}
-                  {%  if item.date_str is not none %} {% if currentDate < item.date_str %}
-                    {% set ns.found = true %}
-                  {% endif %} {% endif %}
-        {% endfor %} 
-        
-        {# Display message if no upcoming tasks were found #}
-        {% if ns.found == false %}
-          <P>No Upcoming Task found!</P>
-        {% endif %}
-        
-        {# Loop through all tasks and display only those with future dates #}
-        {% for item in task_list %}
-        {# More options popup menu for each task - hidden by default #}
-        <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
-                    <ul>
-                      <li><a href="#" onclick="showEditTask()" id="editEvent">Edit</i></a></li>
-                      <hr>
-                      <li>
-                        <form action="/delete/{{ item.id }}" method="POST" style="display: inline;">
-                          <input type="hidden" name="return_url" value="{{ request.path }}">
-                          <button type="submit" style="color: red;cursor: pointer; border: none;">
-                            <i class="fa-regular fa-trash-can"></i>Delete
-                          </button>
-                        </form>
-                      </li>
-                      <hr>
-                      <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
-                    </ul>
+  {# Check if there are any upcoming tasks and set a flag #}
+  {% set ns = namespace(found=false) %}
+  {% for item in task_list %} 
+    {# Only consider tasks with a date that is in the future #}
+    {% if item.date_str is not none %} 
+      {% if currentDate < item.date_str %}
+        {% set ns.found = true %}
+      {% endif %} 
+    {% endif %}
+  {% endfor %} 
+  
+  {# Display message if no upcoming tasks were found #}
+  {% if not ns.found and task_list %}
+    <p>No upcoming tasks found!</p>
+  {% endif %}
+  
+  {# Loop through all tasks and display only those with future dates #}
+  {% for item in task_list %}
+    {% if item.date_str is not none and currentDate < item.date_str %}
+      {# More options popup menu for each task - hidden by default #}
+      <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
+        <ul>
+          <li><a href="#" onclick="showEditTask('{{ item.id }}')" id="editEvent">Edit</i></a></li>
+          <hr>
+          <li>
+            <form action="/delete/{{ item.id }}" method="POST" style="display: inline;">
+              <input type="hidden" name="return_url" value="{{ request.path }}">
+              <button type="submit" style="color: red;cursor: pointer; border: none;">
+                <i class="fa-regular fa-trash-can"></i>Delete
+              </button>
+            </form>
+          </li>
+          <hr>
+          <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
+        </ul>
+      </div>
+      
+      {# Task display container - only shows tasks with future dates #}
+      <div class="TaskAdded">
+        <div class="big_circle">
+          <li><h4>{{ item.title | capitalize }}</h4></li>
+          <li style="position: relative;">
+            <p>{{ item.description | capitalize }}</p>
+            <span style="color: rgb(61, 6, 73)">
+              <i class="fa-thin fa-calendar"></i> {{ item.display_date }}
+            </span>
+            <a
+              href="#"
+              style="display: none; position: absolute; right: 0; top: 0;"
+              class="ellipsis"
+              onclick="ShowMoreOptions('{{ item.id }}')"
+            >
+              <i class="fa-light fa-ellipsis-stroke"></i>
+            </a>
+          </li>
+          <hr class="hr_line" />
         </div>
-        
-        {# Task display container - only shows tasks with future dates #}
-        <div class="upcoming-container">
-              <div class="upcoming">
-                    {% if item.date_str is not none %} {% if currentDate < item.date_str %}
-                    {# Display task details for future tasks #}
-                    <li><h4>{{ item.title | capitalize }}</h4></li>
-                    <li>
-                      <p>{{ item.description | capitalize }}</p>
-                      <a
-                        href="#"
-                        style="display: none"
-                        class="ellipsis"
-                        onclick="ShowMoreOptions('{{ item.id }}')"
-                      >
-                        <i class="fa-thin fa-ellipsis-stroke"></i>
-                      </a>
-                      {# Display the task date #}
-                      <span>
-                        <i class="fa-thin fa-calendar"></i>&nbsp; {{ item.display_date }}
-                      </span>
-                    </li>
-
-                    <hr class="hr_line" />
-                
-                  {% endif %} {% endif %}
-              </div>
-        </div>
-     {% endfor %}
+      </div>
+    {% endif %}
+  {% endfor %}
+  
+  {# "Add task" button at the bottom of the task list #}
+  <ul class="removeAddBtn" onclick="showAddbar()">
+    <li style="list-style: none">
+      <i
+        class="fa-regular fa-plus"
+        style="color: rgba(226, 23, 23, 0.7); font-size: large"
+      ></i>
+      <span class="removeAdd" id="text">Add task</span>
+    </li>
+  </ul>
 </div>
+
+{# Empty state - shown when there are no tasks at all #}
+{% if not task_list %}
+  <div class="searchImg">
+    <img src="/static/images/today.jpg" alt="image not found">
+    <h4>Plan for the days ahead</h4>
+    <p>All your upcoming tasks will show up here. <br>Tap + to add task.</p>
+  </div>
+{% endif %}
 {% endblock %}
