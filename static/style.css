@@ -145,10 +145,43 @@ li {
   cursor: pointer;
 }
 
+#datetimepicker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  font-family: inherit;
+  font-size: 14px;
+  height: auto;
+  padding: 8px 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Add a date icon to make it clear this is a date field */
+.date-input-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+/* Focus state for better user experience */
+#datetimepicker:focus {
+  border-color: #4285f4;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
 /* ============================
    MOBILE STYLES
    ============================ */
 @media screen and (max-width: 768px) {
+  #datetimepicker {
+    font-size: 16px; /* Prevents zoom on mobile */
+  }
   /* Hide desktop sidebar */
   .nav-sidebar {
     display: none;

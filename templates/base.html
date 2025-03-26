@@ -198,6 +198,7 @@
 </div>
 
 <!-- Add task container - hidden by default, shown when "Add task" is clicked -->
+
 <div class="taskContainer">
   <div class="addTaskWrapper">
     <div class="addTask" style="display: none;">
@@ -205,21 +206,23 @@
         <input type="hidden" name="return_url" value="{{ request.path }}">
         <input type="text" name="title" id="pstn" placeholder="Task Name">
         <input type="text" name="description" placeholder="Description">
-        <!-- In your form, replace the last div with this -->
-<div>
-  <input type="text" id="datetimepicker" name="due_date" placeholder="Due Date">
-  <div class="edit-task"></div>
-  <hr>
-  <div class="form-buttons">
-    <button type="button" id="cancel-btn" onclick="hideAddbar()">Cancel</button>
-    <button type="submit" id="add-btn"><span>Add Task</span></button>
-  </div>
-</div>
+        
+        <div>
+      
+          <div class="date-input-wrapper">
+            <input type="text" id="datetimepicker" name="due_date" placeholder="Due Date" autocomplete="off">
+          </div>
+          <div class="edit-task"></div>
+          <hr>
+          <div class="form-buttons">
+            <button type="button" id="cancel-btn" onclick="hideAddbar()">Cancel</button>
+            <button type="submit" id="add-btn"><span>Add Task</span></button>
+          </div>
+        </div>
       </form>
     </div>
   </div>
 </div>
-
 <!-- Edit task modals block - used by child templates to inject edit forms -->
 {% block edit_task_modals %}{% endblock %}
 
