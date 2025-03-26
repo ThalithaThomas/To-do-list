@@ -222,30 +222,22 @@
 {% block edit_task_modals %}{% endblock %}
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-// Make sure flatpickr is loaded before trying to use it
-if (typeof flatpickr === 'function') {
-flatpickr("#datetimepicker", {
-dateFormat: "M j", // Format: Month day (e.g., "Mar 21")
-allowInput: true,
-disableMobile: false,
-monthSelectorType: "static",
-// Add these options for better functionality
-altInput: true,
-altFormat: "M j", // This controls what the user sees
-onOpen: function() {
-// Ensure the input is always properly styled when opened
-document.getElementById('datetimepicker').style.backgroundColor = '#fff';
-},
-// Add an onChange handler for better UX
-onChange: function(selectedDates, dateStr) {
-console.log("Date selected:", dateStr);
-}
-});
-} else {
-console.error("Flatpickr library not loaded!");
-}
+<script>flatpickr("#datetimepicker", {
+    dateFormat: "M j", // Format: Month day (e.g., "Mar 21")
+    allowInput: true,
+    disableMobile: false,
+    monthSelectorType: "static",
+    // Change these settings to preserve placeholder
+    altInput: true,
+    altFormat: "M j", // This controls what the user sees
+    placeholderText: "Due Date", // Explicitly set placeholder
+    onOpen: function() {
+        // Ensure the input is always properly styled when opened
+        document.getElementById('datetimepicker').style.backgroundColor = '#fff';
+    },
+    onChange: function(selectedDates, dateStr) {
+        console.log("Date selected:", dateStr);
+    }
 });
 </script>
 <!-- Floating add task button - primarily for mobile view -->
