@@ -12,152 +12,149 @@
   <h1>Today</h1>
 </div>
 
-{# Main container for today's tasks #}
-<div id="addTask-pstn">
-  
-  {# Check if there are any overdue tasks and set a flag if found #}
-  {% set ns = namespace(found=false) %}
-  {% for item in task_list %}
-    {% if item.date_str and currentDate is not none %}
-      {% if currentDate > item.date_str %}
-        {% set ns.found = true %}
-      {% endif %}
-    {% endif %}
-  {% endfor %}
-  
-  {# Display "Overdue Tasks" section if overdue tasks were found #}
-  {% if ns.found %}
-    <ul><li style="list-style: none;"><h3 id="overDue_tasks_title">Overdue Tasks</h3></li></ul>
-    
-    {# First loop: Display all overdue tasks #}
-    {% for item in task_list %}
-      {% if item.date_str and currentDate is not none and currentDate > item.date_str %}
-        {# More options popup menu for each task - hidden by default #}
-        <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
-          <ul>
-            <li><a href="#" onclick="showEditTask('{{ item.id }}')">Edit</i></a></li>
-            <hr>
-            <li>
-              <form action="/delete/{{ item.id }}" method="POST" style="display: inline;">
-                <input type="hidden" name="return_url" value="{{ request.path }}">
-                <button type="submit" style="color: rgb(128, 20, 20);cursor: pointer; border: none;">
-                  <i class="fa-regular fa-trash-can"></i>Delete
-                </button>
-              </form>
-            </li>
-            <hr>
-            <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
-          </ul>
-        </div>
-        
-        {# Task display container - only show overdue tasks in this first loop #}
-        <div class="TaskAdded">
-          <div class="big_circle">
-            <li><h4>{{ item.title |capitalize }}</h4></li>
-            <li style="position: relative;">
-              <p>{{ item.description }}</p>
-              <span style="color: rgb(130, 10, 10)">
-                <i class="fa-thin fa-calendar"></i> {{ item.display_date }}
-              </span>
-              <a
-                href="#"
-                style="display: none; position: absolute; right: 0; top: 0;"
-                class="ellipsis"
-                onclick="ShowMoreOptions('{{ item.id }}')">
-                <i class="fa-light fa-ellipsis-stroke"></i>
-              </a>
-            </li>
-            <hr class="hr_line" />
-          </div>
-        </div>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-  
-  {# Check for any tasks due today #}
-  {% set ns = namespace(todayFound=false) %}
-  {% for item in task_list %}
-    {% if item.date_str and currentDate is not none %}
-      {% if currentDate == item.date_str %}
-        {% set ns.todayFound = true %}
-      {% endif %}
-    {% endif %}
-  {% endfor %}
-  
-  {# Display "Today's Tasks" section if today's tasks were found #}
-  {% if ns.todayFound %}
-    <ul class="currentDateHeader">
-      <li><h3 id="currentDateHeader">Today's Tasks</h3></li>
-    </ul>
-    
-    {# Second loop: Display all tasks due today #}
-    {% for item in task_list %}
-      {% if item.date_str and currentDate is not none and currentDate == item.date_str %}
-        {# More options popup menu for each task - hidden by default #}
-        <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
-          <ul>
-            <li><a href="#" onclick="showEditTask('{{ item.id }}')" id="editEvent">Edit</i></a></li>
-            <hr>
-            <li>
-              <form action="/delete/{{ item.id }}" method="POST" style="display: inline;">
-                <input type="hidden" name="return_url" value="{{ request.path }}">
-                <button type="submit" style="color: red;cursor: pointer; border: none;">
-                  <i class="fa-regular fa-trash-can"></i>Delete
-                </button>
-              </form>
-            </li>
-            <hr>
-            <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
-          </ul>
-        </div>
-        
-        {# Task display container - only show today's tasks in this second loop #}
-        <div class="TaskAdded">
-          <div class="big_circle">
-            <li><h4>{{ item.title |capitalize }}</h4></li>
-            <li style="position: relative;">
-              <p>{{ item.description }}</p>
-              <span style="color: white">
-                <i class="fa-thin fa-calendar"></i> {{ item.display_date }}
-              </span>
-              <a
-                href="#"
-                style="display: none; position: absolute; right: 0; top: 0;"
-                class="ellipsis"
-                onclick="ShowMoreOptions('{{ item.id }}')">
-                <i class="fa-light fa-ellipsis-stroke"></i>
-              </a>
-            </li>
-            <hr class="hr_line" />
-          </div>
-        </div>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-  
-  {# Display message if no tasks are found for today or overdue #}
-  {% if not ns.found and not ns.todayFound and task_list %}
-    <p>No tasks due today or overdue.</p>
-  {% endif %}
-  
-  {# "Add task" button at the bottom of the task list #}
-  <ul class="removeAddBtn" onclick="showAddbar()">
-    <li style="list-style: none">
-      <i
-        class="fa-regular fa-plus"
-        style="color: rgba(226, 23, 23, 0.7); font-size: large"
-      ></i>
-      <span class="removeAdd" id="text">Add task</span>
-    </li>
-  </ul>
-</div>
-
-{# Empty state - shown when there are no tasks at all #}
+{# Empty state - moved up to appear before task content #}
 {% if not task_list %}
   <div class="searchImg">
     <img src="/static/images/today.jpg" alt="image not found">
     <h4>Get a clear view of the day ahead</h4>
     <p>All your tasks that are due Today or overdue will show up here. <br>Tap + to add task.</p>
+  </div>
+{% else %}
+  {# Only show task container if there are tasks #}
+  <div id="addTask-pstn">
+    
+    {# Check if there are any overdue tasks and set a flag if found #}
+    {% set ns = namespace(found=false) %}
+    {% for item in task_list %}
+      {% if item.date_str and currentDate is not none %}
+        {% if currentDate > item.date_str %}
+          {% set ns.found = true %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    
+    {# Display "Overdue Tasks" section if overdue tasks were found #}
+    {% if ns.found %}
+      <ul><li style="list-style: none;"><h3 id="overDue_tasks_title">Overdue Tasks</h3></li></ul>
+      
+      {# First loop: Display all overdue tasks #}
+      {% for item in task_list %}
+        {% if item.date_str and currentDate is not none and currentDate > item.date_str %}
+          {# More options popup menu for each task - hidden by default #}
+          <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
+            <ul>
+              <li><a href="#" onclick="showEditTask('{{ item.id }}')">Edit</i></a></li>
+              <hr>
+              <li>
+                <form action="/delete/{{ item.id }}" method="POST" style="display: inline;">
+                  <input type="hidden" name="return_url" value="{{ request.path }}">
+                  <button type="submit" style="color: rgb(128, 20, 20);cursor: pointer; border: none;">
+                    <i class="fa-regular fa-trash-can"></i>Delete
+                  </button>
+                </form>
+              </li>
+              <hr>
+              <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
+            </ul>
+          </div>
+          
+          {# Task display container - only show overdue tasks in this first loop #}
+          <div class="TaskAdded">
+            <div class="big_circle">
+              <li><h4>{{ item.title |capitalize }}</h4></li>
+              <li style="position: relative;">
+                <p>{{ item.description }}</p>
+                <span style="color: rgb(130, 10, 10)">
+                  <i class="fa-thin fa-calendar"></i> {{ item.display_date }}
+                </span>
+                <a
+                  href="#"
+                  style="display: none; position: absolute; right: 0; top: 0;"
+                  class="ellipsis"
+                  onclick="ShowMoreOptions('{{ item.id }}')">
+                  <i class="fa-light fa-ellipsis-stroke"></i>
+                </a>
+              </li>
+              <hr class="hr_line" />
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    
+    {# Check for any tasks due today #}
+    {% set ns = namespace(todayFound=false) %}
+    {% for item in task_list %}
+      {% if item.date_str and currentDate is not none %}
+        {% if currentDate == item.date_str %}
+          {% set ns.todayFound = true %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    
+    {# Display "Today's Tasks" section if today's tasks were found #}
+    {% if ns.todayFound %}
+      <ul class="currentDateHeader">
+        <li><h3 id="currentDateHeader">Today's Tasks</h3></li>
+      </ul>
+      
+      {# Second loop: Display all tasks due today #}
+      {% for item in task_list %}
+        {% if item.date_str and currentDate is not none and currentDate == item.date_str %}
+          {# More options popup menu for each task - hidden by default #}
+          <div id="moreOptions_{{ item.id }}" class="moreOptions" style="display: none;">
+            <ul>
+              <li><a href="#" onclick="showEditTask('{{ item.id }}')" id="editEvent">Edit</i></a></li>
+              <hr>
+              <li>
+                <form action="/delete/{{ item.id }}" method="POST" style="display: inline;">
+                  <input type="hidden" name="return_url" value="{{ request.path }}">
+                  <button type="submit" style="color: red;cursor: pointer; border: none;">
+                    <i class="fa-regular fa-trash-can"></i>Delete
+                  </button>
+                </form>
+              </li>
+              <hr>
+              <li><a href="#" onclick="HideMoreOptions()"><i class="fa-solid fa-circle-xmark"></i>close tab</a></li>
+            </ul>
+          </div>
+          
+          {# Task display container - only show today's tasks in this second loop #}
+          <div class="TaskAdded">
+            <div class="big_circle">
+              <li><h4>{{ item.title |capitalize }}</h4></li>
+              <li style="position: relative;">
+                <p>{{ item.description }}</p>
+                <span style="color: white">
+                  <i class="fa-thin fa-calendar"></i> {{ item.display_date }}
+                </span>
+                <a
+                  href="#"
+                  style="display: none; position: absolute; right: 0; top: 0;"
+                  class="ellipsis"
+                  onclick="ShowMoreOptions('{{ item.id }}')">
+                  <i class="fa-light fa-ellipsis-stroke"></i>
+                </a>
+              </li>
+              <hr class="hr_line" />
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    
+  
+    
+    {# "Add task" button at the bottom of the task list #}
+    <ul class="removeAddBtn" onclick="showAddbar()">
+      <li style="list-style: none">
+        <i
+          class="fa-regular fa-plus"
+          style="color: rgba(226, 23, 23, 0.7); font-size: large"
+        ></i>
+        <span class="removeAdd" id="text">Add task</span>
+      </li>
+    </ul>
   </div>
 {% endif %}
 

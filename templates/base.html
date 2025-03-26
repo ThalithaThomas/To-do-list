@@ -24,10 +24,7 @@
     />
     
     <!-- Flatpickr for date picking functionality -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     
     <!-- Additional Font Awesome icons from pro collection -->
     <link
@@ -206,9 +203,7 @@
         <input type="hidden" name="return_url" value="{{ request.path }}">
         <input type="text" name="title" id="pstn" placeholder="Task Name">
         <input type="text" name="description" placeholder="Description">
-        
         <div>
-      
           <div class="date-input-wrapper">
             <input type="text" id="datetimepicker" name="due_date" placeholder="Due Date" autocomplete="off">
           </div>
@@ -226,6 +221,33 @@
 <!-- Edit task modals block - used by child templates to inject edit forms -->
 {% block edit_task_modals %}{% endblock %}
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Make sure flatpickr is loaded before trying to use it
+if (typeof flatpickr === 'function') {
+flatpickr("#datetimepicker", {
+dateFormat: "M j", // Format: Month day (e.g., "Mar 21")
+allowInput: true,
+disableMobile: false,
+monthSelectorType: "static",
+// Add these options for better functionality
+altInput: true,
+altFormat: "M j", // This controls what the user sees
+onOpen: function() {
+// Ensure the input is always properly styled when opened
+document.getElementById('datetimepicker').style.backgroundColor = '#fff';
+},
+// Add an onChange handler for better UX
+onChange: function(selectedDates, dateStr) {
+console.log("Date selected:", dateStr);
+}
+});
+} else {
+console.error("Flatpickr library not loaded!");
+}
+});
+</script>
 <!-- Floating add task button - primarily for mobile view -->
 <div class="addtaskBar" id="addtaskBar">
   <ul onclick="showAddbar()">
@@ -234,7 +256,7 @@
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script>
+
 
 <!-- Initialize date picker with desired format -->
 <script>

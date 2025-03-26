@@ -251,14 +251,22 @@ li {
   }
 
   /* Show floating add button on mobile */
+
   .addtaskBar {
     display: block;
-    position: fixed;
+    position: fixed !important;
     bottom: 80px;
     right: 20px;
     z-index: 110;
+    transform: none;
+    will-change: transform;
   }
 
+  .addtaskBar ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
   .plus1 {
     width: 56px;
     height: 56px;
