@@ -16,13 +16,11 @@
 <div id="addTask-pstn">
   
   {# Check if there are any overdue tasks and set a flag if found #}
-  {% set ns = namespace(found=false, todayFound=false) %}
+  {% set ns = namespace(found=false) %}
   {% for item in task_list %}
     {% if item.date_str and currentDate is not none %}
       {% if currentDate > item.date_str %}
         {% set ns.found = true %}
-      {% elif currentDate == item.date_str %}
-        {% set ns.todayFound = true %}
       {% endif %}
     {% endif %}
   {% endfor %}
@@ -76,6 +74,16 @@
     {% endfor %}
   {% endif %}
   
+  {# Check for any tasks due today #}
+  {% set ns = namespace(todayFound=false) %}
+  {% for item in task_list %}
+    {% if item.date_str and currentDate is not none %}
+      {% if currentDate == item.date_str %}
+        {% set ns.todayFound = true %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  
   {# Display "Today's Tasks" section if today's tasks were found #}
   {% if ns.todayFound %}
     <ul class="currentDateHeader">
@@ -127,8 +135,8 @@
     {% endfor %}
   {% endif %}
   
-  {# Only display the "no tasks" message if there are truly no tasks for today or overdue #}
-  {% if not ns.found and not ns.todayFound %}
+  {# Display message if no tasks are found for today or overdue #}
+  {% if not ns.found and not ns.todayFound and task_list %}
     <p>No tasks due today or overdue.</p>
   {% endif %}
   

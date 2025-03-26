@@ -32,18 +32,28 @@ function hideAddbar() {
 }
 
 var ellipsisMouseOver = document.getElementById("addTask-pstn");
-var ellipsisElements = document.querySelectorAll(".ellipsis");
 
-ellipsisElements.forEach(function (ellipsis) {
-  parentLi = ellipsis.closest("li");
-  parentLi.addEventListener("mouseover", function () {
-    ellipsis.style.display = "inline";
-  });
-  parentLi.addEventListener("mouseout", function () {
-    ellipsis.style.display = "none";
+document.addEventListener("DOMContentLoaded", function () {
+  const taskItems = document.querySelectorAll(".big_circle li");
+
+  taskItems.forEach(function (item) {
+    const ellipsis = item.querySelector(".ellipsis");
+    if (ellipsis) {
+      // Make sure ellipsis is hidden by default
+      ellipsis.style.display = "none";
+
+      // Show on hover
+      item.addEventListener("mouseenter", function () {
+        ellipsis.style.display = "inline-block";
+      });
+
+      // Hide when not hovering
+      item.addEventListener("mouseleave", function () {
+        ellipsis.style.display = "none";
+      });
+    }
   });
 });
-
 function showSearchbar() {
   const searchBar = document.querySelector(".searchbar");
   searchBar.style.display = "block";

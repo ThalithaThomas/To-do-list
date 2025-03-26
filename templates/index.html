@@ -11,6 +11,15 @@
   <h1 id="inboxOnclick">Today</h1>
 </div>
 
+{# Empty state - shown when there are no tasks at all #}
+{% if not task_list %}
+  <div class="searchImg" style="margin-top: 20px;">
+    <img src="/static/images/today.jpg" alt="image not found">
+    <h4>Get a clear view of the day ahead</h4>
+    <p>All your tasks that are due Today or overdue will show up here. <br>Tap + to add task.</p>
+  </div>
+{% endif %}
+
 {# Main container for task display #}
 <div id="addTask-pstn" >
     {# Create a namespace variable to track if overdue tasks exist #}
